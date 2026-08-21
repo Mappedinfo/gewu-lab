@@ -47,9 +47,10 @@
       .slice(0, 4)
       .map(t => t.code);
 
+    /* 复用 tool.html 的外层 main，避免嵌套产生宽度约束 */
     const main = document.querySelector("main") || document.body;
+    main.className = "tool-wrap plugin-wrap";
     main.innerHTML = `
-    <main class="tool-wrap">
       <nav class="crumbs"><a href="index.html">格物</a> / <a href="index.html#cat-${manifest.cat}">${cat.name}</a> / <span>${manifest.code} ${GEWU.esc(manifest.name)}</span></nav>
       <section class="tool-head">
         <div>
@@ -63,14 +64,13 @@
           ${manifest.repo ? `<a class="chip" href="https://${GEWU.esc(manifest.repo)}" target="_blank" rel="noopener">源码 ↗</a>` : ""}
         </div>
       </section>
-      <section class="tool-body">
+      <section class="tool-body plugin-body">
         <div id="plugin-mount"></div>
       </section>
       <section class="tool-foot">
         <h2>同主题工具</h2>
         <div class="related-grid" id="related"></div>
-      </section>
-    </main>`;
+      </section>`;
 
     if (typeof renderRelated === "function") renderRelated($("#related"), relatedCodes);
 

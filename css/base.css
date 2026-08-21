@@ -482,6 +482,16 @@ html[data-theme="dark"] .hljs-title { color: #D9A45B; }
 .md-preview input[type="checkbox"] { accent-color: var(--accent); margin-right: 6px; }
 .md-preview .katex-display { overflow-x: auto; padding: 4px 0; }
 
+/* ---------- 插件页（全宽无框，给应用完整展示空间） ---------- */
+.tool-wrap.plugin-wrap { max-width: 1440px; }
+.plugin-body {
+  padding: 0; border: none; box-shadow: none; background: transparent; border-radius: 0;
+}
+#plugin-mount { min-width: 0; }
+@media (max-width: 560px) {
+  .tool-wrap.plugin-wrap { padding: 0 10px; }
+}
+
 /* ---------- 打印 ---------- */
 @media print {
   .site-header, .site-footer, .tool-actions, .crumbs { display: none !important; }
