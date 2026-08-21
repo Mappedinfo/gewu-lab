@@ -15,7 +15,7 @@
       let html;
       try { html = hljs.highlight(code, { language: lang || "plaintext" }).value; }
       catch (e) { html = GEWU.esc(code); }
-      codes.push(html);
+      codes.push(`<pre><code class="hljs">${html}</code></pre>`);
       return `\n<GEWU-CODE>${idx}</GEWU-CODE>\n`;
     });
     const maths = [];
@@ -58,33 +58,38 @@
 
   function wechatify(html) {
     let h = html;
-    /* 表格 */
-    h = h.replace(/<table>/g, () => WX.table("")).replace(/<\/table>/g, "</table>");
+    /* 代码块整体处理（先于行内 code，避免双重包裹） */
+    h = h.replace(/<pre[^>]*><code[^>]*>([\s\S]*?)<\/code><\/pre>/g, (m, s) => WX.pre(s));
+    /* 表格：捕获整体内容包裹，避免提前闭合 */
+    h = h.replace(/<table>([\s\S]*?)<\/table>/g, (m, s) => WX.table(s));
     h = h.replace(/<thead>|<\/thead>|<tbody>|<\/tbody>/g, "");
-    h = h.replace(/<th>([\s\S]*?)<\/th>/g, (m, s) => WX.th(s));
-    h = h.replace(/<td>([\s\S]*?)<\/td>/g, (m, s) => WX.td(s));
-    h = h.replace(/<tr>/g, "<tr>").replace(/<\/tr>/g, "</tr>");
+    h = h.replace(/<th[^>]*>([\s\S]*?)<\/th>/g, (m, s) => WX.th(s));
+    h = h.replace(/<td[^>]*>([\s\S]*?)<\/td>/g, (m, s) => WX.td(s));
+    h = h.replace(/<tr[^>]*>/g, "<tr>").replace(/<\/tr>/g, "</tr>");
     /* 块级 */
     h = h.replace(/<h1[^>]*>([\s\S]*?)<\/h1>/g, (m, s) => WX.h1(s));
     h = h.replace(/<h2[^>]*>([\s\S]*?)<\/h2>/g, (m, s) => WX.h2(s));
     h = h.replace(/<h3[^>]*>([\s\S]*?)<\/h3>/g, (m, s) => WX.h3(s));
     h = h.replace(/<h4[^>]*>([\s\S]*?)<\/h4>/g, (m, s) => WX.h3(s));
     h = h.replace(/<blockquote[^>]*>([\s\S]*?)<\/blockquote>/g, (m, s) => WX.blockquote(s));
-    h = h.replace(/<pre[^>]*>([\s\S]*?)<\/pre>/g, (m, s) => WX.pre(s));
-    h = h.replace(/<ul[^>]*>/g, () => WX.ul("")).replace(/<\/ul>/g, "</ul>");
-    h = h.replace(/<ol[^>]*>/g, () => WX.ol("")).replace(/<\/ol>/g, "</ol>");
+    h = h.replace(/<ul[^>]*>([\s\S]*?)<\/ul>/g, (m, s) => WX.ul(s));
+    h = h.replace(/<ol[^>]*>([\s\S]*?)<\/ol>/g, (m, s) => WX.ol(s));
     h = h.replace(/<li[^>]*>([\s\S]*?)<\/li>/g, (m, s) => WX.li(s));
     h = h.replace(/<hr[^>]*>/g, () => WX.hr());
-    h = h.replace(/<p[^>]*>/g, () => WX.p("")).replace(/<\/p>/g, "</p>");
-    /* 行内 */
-    h = h.replace(/<strong[^>]*>/g, () => WX.strong("")).replace(/<\/strong>/g, "</strong>");
-    h = h.replace(/<em[^>]*>/g, () => WX.em("")).replace(/<\/em>/g, "</em>");
+    h = h.replace(/<p[^>]*>([\s\S]*?)<\/p>/g, (m, s) => WX.p(s));
+    /* 行内：开闭标签一起替换，内容保持在标签内 */
+    h = h.replace(/<strong[^>]*>([\s\S]*?)<\/strong>/g, (m, s) => WX.strong(s));
+    h = h.replace(/<em[^>]*>([\s\S]*?)<\/em>/g, (m, s) => WX.em(s));
     h = h.replace(/<del[^>]*>([\s\S]*?)<\/del>/g, (m, s) => `<del style="text-decoration:line-through">${s}</del>`);
     h = h.replace(/<code[^>]*>([\s\S]*?)<\/code>/g, (m, s) => WX.code(s));
     h = h.replace(/<a[^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/g, (m, href, s) => WX.a(s, href));
-    h = h.replace(/<img[^>]*>/g, (m) => `<p style="color:#999;font-size:13px;text-align:center">[图片：本地图片未随文上传，请手动插入]</p>`);
-    /* 公式容器保持 */
-    h = h.replace(/<span class="katex/g, '<span class="katex');
+    /* 图片：data: URI（图表/截图）与外链保留渲染；本地路径给上传提示 */
+    h = h.replace(/<img[^>]*src="([^"]*)"[^>]*>/g, (m, src) => {
+      const style = "max-width:100%;height:auto;border-radius:6px;margin:14px auto;display:block;box-shadow:0 2px 10px rgba(0,0,0,.08)";
+      if (/^data:/i.test(src)) return `<img src="${src}" style="${style}" alt="图表">`;
+      if (/^https?:\/\//i.test(src)) return `<img src="${src}" style="${style}" alt="图片" referrerpolicy="no-referrer">`;
+      return `<p style="color:#999;font-size:13px;text-align:center">[图片：${GEWU.esc(src)} 需手动上传至公众号]</p>`;
+    });
     return h;
   }
 
