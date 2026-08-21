@@ -3,6 +3,8 @@
 > 格物致知 —— 研究事物，获得知识。
 > 一个面向 **科研 · 可视化 · 知识传播** 的纯前端工具集合，灵感参考 [meTool.online](https://metool.online/)，但刻意做得更窄、更深。
 
+**线上地址**：https://mappedinfo.github.io/gewu-lab/
+
 ## 与通用工具箱（MeTool 类）的差异
 
 | | 通用工具箱 | 格物 GEWU |
@@ -31,7 +33,7 @@
 | V-02 | 图表工坊 | CSV → 折线/散点/柱状/直方/饼图 + 统计摘要 |
 | V-03 | 分布实验室 | 8 种分布 PDF/CDF、临界值、双分布对比（手写数值算法） |
 | V-04 | 关系图谱 | 边表即图，力导向布局、可拖拽、有向箭头 |
-| V-05 | 色卡实验室 | 15 色学术配色档案：色值解析、8 组搭配、全屏对比/剧场、图像取色（本地嵌入 React 构建） |
+| V-05 | 色卡实验室（插件） | 15 色学术配色档案：8 组搭配、全屏对比/剧场、图像取色 |
 
 ### 传 · 知识传播（K）
 | 编号 | 工具 | 说明 |
@@ -42,11 +44,31 @@
 | K-04 | 幻灯片速成 | MD + `---` 分页成 16:9 幻灯片，打印即 PDF |
 | K-05 | 思维导图 | 缩进大纲 → 辐射导图，导出 SVG / PNG |
 
+## 插件体系
+
+格物支持把已有项目（React/Vue/Vite 应用、静态工具、在线服务）以统一契约接入为原生工具：
+
+- **manifest 驱动**：每个插件一个 `plugins/<id>/gewu.plugin.json`（名称/分类/图标/入口/版本/仓库）
+- **统一工具壳**：插件页 = `tools/tool.html?id=<id>`，由 `js/loader.js` 渲染壳层并挂载
+- **shadow DOM 隔离**：bundle 插件样式不污染宿主，设计令牌与明暗主题可继承
+- **一键接入/更新**：`node scripts/embed.mjs add|update|remove <repo>`，目录自动重新生成
+
+```bash
+# 示例：接入 / 更新 / 移除
+node scripts/embed.mjs add mappedinfo/palette-lab --id v05-palette --code V-05 --cat V --name 色卡实验室
+node scripts/embed.mjs update v05-palette
+node scripts/embed.mjs remove v05-palette
+```
+
+当前插件：**V-05 色卡实验室**（[Mappedinfo/palette-lab](https://github.com/Mappedinfo/palette-lab) 经 gewu 适配层原生挂载）。
+
+详细契约与适配层写法见 [docs/PLUGINS.md](docs/PLUGINS.md)。
+
 ## 技术栈
 
-- 原生 HTML / CSS / JavaScript —— **无框架、无构建、无后端**
+- 原生 HTML / CSS / JavaScript —— **无框架、无构建、无后端**（插件除外：现有项目自带构建）
 - 本地化依赖：`js/lib/`（marked、KaTeX、highlight.js，均下载到本地，可离线运行）
-- 单一数据源：`js/catalog.js` 驱动首页目录、页脚与相关工具推荐
+- 目录数据源：`js/catalog.js`（手写 14 件）+ `js/catalog.plugins.js`（脚本生成）驱动首页、页脚与相关工具推荐
 - 导出全部走浏览器 Blob / Canvas：SVG、PNG（2×/4× 超采样）、HTML、CSV
 
 ## 本地运行
@@ -67,12 +89,18 @@ gewu-lab/
 ├── about.html          # 关于页：理念、差异对照、技术栈
 ├── css/base.css        # 设计系统（学术标本馆美学：宣纸 + 蓝图纸 + 朱砂）
 ├── js/
-│   ├── catalog.js      # 工具目录单一数据源（15 件 + 图标 + 缩略图）
+│   ├── catalog.js      # 手写工具目录（研/视/传 14 件 + 图标 + 缩略图）
+│   ├── catalog.plugins.js  # 插件目录（scripts/gen-catalog.mjs 自动生成）
+│   ├── plugin.js       # 插件宿主运行时（GEWU_PLUGIN 注册表 + 插件 API）
+│   ├── loader.js       # 插件加载器（tools/tool.html?id=<id> 统一工具壳）
 │   ├── site.js         # 页头页脚注入、主题切换、通用工具函数
 │   ├── index.js        # 首页渲染与筛选
 │   ├── lib/            # 本地化第三方库（marked / katex / highlight.js）
-│   └── tools/          # 每件工具一个脚本（r01-* / v01-* / k01-*）
-└── tools/              # 14 个工具页面
+│   └── tools/          # 手写工具脚本（r01-* / v01-* / k01-*）
+├── plugins/            # 插件目录（每个插件一个文件夹 + gewu.plugin.json）
+├── scripts/            # embed.mjs（接入/更新 CLI）+ gen-catalog.mjs（目录生成器）
+├── docs/PLUGINS.md     # 插件开发指南
+└── tools/              # 手写工具页面 + tool.html（插件统一壳）
 ```
 
 ## 设计说明
@@ -85,17 +113,3 @@ gewu-lab/
 ## License
 
 MIT —— 随便用，格物致知。
-
-## 嵌入工具：色卡实验室（V-05）
-
-`tools/palette-lab/` 是 [Mappedinfo/palette-lab](https://github.com/Mappedinfo/palette-lab)（React 19 + Vite 8）的生产构建产物，以相对路径（`--base=./`）构建后嵌入，随本仓库离线可用。
-
-升级方式（在 palette-lab 开发仓库）：
-
-```bash
-cd <palette-lab 开发仓库>          # 如 ~/Coding/cnb/SandBoxWebGL2/palette-lab
-npm run build -- --base=./         # 相对路径构建
-cp -R dist/. <gewu-lab>/tools/palette-lab/
-```
-
-然后提交 gewu-lab 并推送 `main`，GitHub Pages 会自动重建。

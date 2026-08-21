@@ -1,0 +1,21 @@
+{
+  "id": "v05-palette",
+  "code": "V-05",
+  "cat": "V",
+  "name": "色卡实验室",
+  "en": "Palette Lab",
+  "desc": "15 色学术配色档案：色值解析、8 组搭配方案、全屏对比与剧场、图像取色提取（React 应用经 gewu 适配层原生挂载）。",
+  "tags": [
+    "配色",
+    "对比度",
+    "取色"
+  ],
+  "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"3\" width=\"9\" height=\"9\" rx=\"2\" fill=\"currentColor\" opacity=\".85\" stroke=\"none\"/><rect x=\"12\" y=\"12\" width=\"9\" height=\"9\" rx=\"2\" fill=\"currentColor\" opacity=\".5\" stroke=\"none\"/><rect x=\"6\" y=\"13\" width=\"8\" height=\"8\" rx=\"2\" fill=\"none\"/></svg>",
+  "thumb": "<svg viewBox=\"0 0 120 80\">\n      <rect width=\"120\" height=\"80\" fill=\"var(--paper)\"/>\n      <g stroke=\"#000\" stroke-opacity=\".14\" stroke-width=\"1\">\n        <rect x=\"16\" y=\"12\" width=\"26\" height=\"18\" fill=\"#FFE59D\"/>\n        <rect x=\"47\" y=\"12\" width=\"26\" height=\"18\" fill=\"#64BBCF\"/>\n        <rect x=\"78\" y=\"12\" width=\"26\" height=\"18\" fill=\"#9E1D1C\"/>\n        <rect x=\"16\" y=\"35\" width=\"26\" height=\"18\" fill=\"#EE1969\"/>\n        <rect x=\"47\" y=\"35\" width=\"26\" height=\"18\" fill=\"#90E0D6\"/>\n        <rect x=\"78\" y=\"35\" width=\"26\" height=\"18\" fill=\"#61AC4C\"/>\n        <rect x=\"16\" y=\"58\" width=\"26\" height=\"18\" fill=\"#CCA4E3\"/>\n        <rect x=\"47\" y=\"58\" width=\"26\" height=\"18\" fill=\"#6583E0\"/>\n        <rect x=\"78\" y=\"58\" width=\"26\" height=\"18\" fill=\"#008E6B\"/>\n      </g>\n      <text x=\"16\" y=\"10\" font-family=\"monospace\" font-size=\"8\" fill=\"var(--ink-3)\">15 色 · 8 组搭配</text>\n    </svg>",
+  "entry": {
+    "type": "bundle",
+    "entry": "gewu-plugin.js"
+  },
+  "version": "1.0.0",
+  "repo": "mappedinfo/palette-lab"
+}
