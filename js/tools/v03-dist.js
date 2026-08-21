@@ -446,7 +446,7 @@
   $("#dl-png").addEventListener("click", () => GEWU.downloadCanvas(canvas, "distribution.png", 2));
   $("#dl-png4").addEventListener("click", () => GEWU.downloadCanvas(canvas, "distribution@4x.png", 4));
 
-  renderRelated($("#related"), ["V-02", "V-01", "R-05"]);
+  renderRelated($("#related"), ["V-02", "V-01", "V-05"]);
   renderParams();
   render();
 })();

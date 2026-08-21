@@ -7,7 +7,7 @@ const GEWU_CATS = {
   R: { name: "研 · 科研", key: "R", color: "accent", cls: "accent",
        desc: "阅读、记录、写作与实验设计的日常科研工具" },
   V: { name: "视 · 可视化", key: "V", color: "blue", cls: "blue",
-       desc: "把数据、函数与分布画出来，让规律可见" },
+       desc: "把数据、函数、分布与配色画出来，让规律可见" },
   K: { name: "传 · 知识传播", key: "K", color: "green", cls: "green",
        desc: "把知识整理成可分享、可传播的形式" },
 };
@@ -167,6 +167,28 @@ const GEWU_CATALOG = [
       <text x="20" y="76" font-family="monospace" font-size="8.5" fill="var(--ink-3)">6 节点 · 8 边 · 度分布</text>
     </svg>`
   },
+  {
+    code: "V-05", cat: "V", name: "色卡实验室", en: "Palette Lab",
+    href: "tools/palette-lab/index.html",
+    desc: "15 色学术配色档案：色值解析、8 组搭配方案、全屏对比与剧场，图像取色提取（本地嵌入 React 应用）。",
+    tags: ["配色", "对比度", "取色"],
+    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="3" y="3" width="9" height="9" rx="2" fill="currentColor" opacity=".85" stroke="none"/><rect x="12" y="12" width="9" height="9" rx="2" fill="currentColor" opacity=".5" stroke="none"/><rect x="6" y="13" width="8" height="8" rx="2" fill="none"/></svg>`,
+    thumb: `<svg viewBox="0 0 120 80">
+      <rect width="120" height="80" fill="var(--paper)"/>
+      <g stroke="#000" stroke-opacity=".14" stroke-width="1">
+        <rect x="16" y="12" width="26" height="18" fill="#FFE59D"/>
+        <rect x="47" y="12" width="26" height="18" fill="#64BBCF"/>
+        <rect x="78" y="12" width="26" height="18" fill="#9E1D1C"/>
+        <rect x="16" y="35" width="26" height="18" fill="#EE1969"/>
+        <rect x="47" y="35" width="26" height="18" fill="#90E0D6"/>
+        <rect x="78" y="35" width="26" height="18" fill="#61AC4C"/>
+        <rect x="16" y="58" width="26" height="18" fill="#CCA4E3"/>
+        <rect x="47" y="58" width="26" height="18" fill="#6583E0"/>
+        <rect x="78" y="58" width="26" height="18" fill="#008E6B"/>
+      </g>
+      <text x="16" y="10" font-family="monospace" font-size="8" fill="var(--ink-3)">15 色 · 8 组搭配</text>
+    </svg>`
+  },
 
   /* ============ 传 · 知识传播 ============ */
   {
@@ -263,7 +285,7 @@ const GEWU_FLOW = [
   { no: "01", nm: "阅读", tl: "文献与公式", links: ["R-01", "R-03"] },
   { no: "02", nm: "记录", tl: "笔记与存档", links: ["R-02"] },
   { no: "03", nm: "分析", tl: "量纲与随机化", links: ["R-04", "R-05"] },
-  { no: "04", nm: "绘图", tl: "函数·图表·分布", links: ["V-01", "V-02", "V-03"] },
+  { no: "04", nm: "绘图", tl: "函数·图表·分布·配色", links: ["V-01", "V-02", "V-03", "V-05"] },
   { no: "05", nm: "建模", tl: "关系与结构", links: ["V-04", "K-05"] },
   { no: "06", nm: "传播", tl: "卡片·排版·演示", links: ["K-01", "K-02", "K-03", "K-04"] },
 ];

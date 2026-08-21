@@ -401,6 +401,6 @@
     GEWU.downloadText(r._finish(), "chart.svg", "image/svg+xml");
   });
 
-  renderRelated($("#related"), ["V-01", "V-03", "V-04"]);
+  renderRelated($("#related"), ["V-01", "V-03", "V-05"]);
   render();
 })();

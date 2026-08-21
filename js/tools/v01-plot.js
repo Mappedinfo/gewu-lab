@@ -287,7 +287,7 @@
   });
   $("#dl-png").addEventListener("click", () => GEWU.downloadCanvas(canvas, "function-plot.png", 2));
 
-  renderRelated($("#related"), ["V-02", "V-03", "R-01"]);
+  renderRelated($("#related"), ["V-02", "V-03", "V-05", "R-01"]);
   renderFns();
   redraw();
 })();
