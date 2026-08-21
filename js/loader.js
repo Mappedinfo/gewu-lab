@@ -73,6 +73,7 @@
       </section>`;
 
     if (typeof renderRelated === "function") renderRelated($("#related"), relatedCodes);
+    if (typeof GEWU.absolutizeLinks === "function") GEWU.absolutizeLinks(document);
 
     const mountEl = $("#plugin-mount");
     mountEl.setAttribute("data-gewu-theme", GEWU_PLUGIN.api.theme.get());

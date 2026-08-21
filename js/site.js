@@ -257,8 +257,45 @@
     els.forEach(e => io.observe(e));
   }
 
+  /* ---------- 站内链接绝对化 ----------
+     导航/页脚/面包屑/相关工具均为相对路径，在 tools/ 子目录页面会解析成 404。
+     由 site.js 自身位置推导站点根（对 GitHub Pages 子路径、本地根路径均适用），
+     再把所有站内 <a> 链接改写为绝对路径。 */
+  const SITE_BASE = (function () {
+    const src = document.currentScript?.src || "";
+    const m = src.match(/^(.*)\/js\/site\.js(\?.*)?$/);
+    return m ? m[1] : "";
+  })();
+
+  function absolutizeLinks(root) {
+    const scope = root && root.querySelectorAll ? root : document;
+    scope.querySelectorAll("a[href]").forEach(a => {
+      const h = a.getAttribute("href");
+      if (!h) return;
+      if (/^(https?:|mailto:|tel:|javascript:|data:)/i.test(h)) return;
+      if (h.startsWith("#")) return;
+      if (h.startsWith(SITE_BASE + "/")) return;
+      const clean = h.replace(/^\.?\//, "");
+      a.setAttribute("href", SITE_BASE + "/" + clean);
+    });
+  }
+
+  /* 观察动态插入的链接（loader 壳层、相关工具等） */
+  function initLinkObserver() {
+    if (!("MutationObserver" in window)) return;
+    const mo = new MutationObserver(muts => {
+      let dirty = false;
+      for (const m of muts) {
+        if (m.type === "childList" && m.addedNodes.length) { dirty = true; break; }
+        if (m.type === "attributes" && m.attributeName === "href") { dirty = true; break; }
+      }
+      if (dirty) absolutizeLinks(document);
+    });
+    mo.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ["href"] });
+  }
+
   /* ---------- 初始化 ---------- */
-  window.GEWU = { $, $$, toast, downloadBlob, downloadText, downloadCanvas, copyText, copyRichText, esc, fmtSci, fmtNum, parseCSV };
+  window.GEWU = { $, $$, toast, downloadBlob, downloadText, downloadCanvas, copyText, copyRichText, esc, fmtSci, fmtNum, parseCSV, absolutizeLinks, SITE_BASE };
 
   document.addEventListener("DOMContentLoaded", () => {
     const active = document.body.getAttribute("data-page") || "home";
@@ -268,5 +305,7 @@
     if (f) f.outerHTML = footerHTML();
     initTheme();
     initReveal();
+    initLinkObserver();
+    absolutizeLinks(document);
   });
 })();
