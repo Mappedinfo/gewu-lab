@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>思维导图 K-05 · 格物 GEWU</title>
+<meta name="description" content="缩进文本即成思维导图：辐射布局、分层配色、可拖拽微调，导出 SVG / PNG。纯前端。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%233B6B4E'/%3E%3Ctext x='16' y='23' font-size='18' text-anchor='middle' fill='%23FBF8EF' font-family='serif'%3E传%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../css/base.css">
+</head>
+<body data-page="K">
+
+<div id="site-header"></div>
+
+<main class="tool-wrap">
+  <nav class="crumbs"><a href="../index.html">格物</a> / <a href="../index.html#cat-K">传 · 知识传播</a> / <span>K-05 思维导图</span></nav>
+  <section class="tool-head">
+    <div>
+      <h1>思维导图</h1>
+      <div class="en">MIND MAP</div>
+      <p class="desc">用缩进把知识结构「写」出来：第一行是中心主题，缩进越深层级越深。辐射式布局、按层配色，导出 SVG（可再编辑）或 PNG（可直接分享）。</p>
+    </div>
+    <div class="meta">
+      <span class="chip green">K-05 · 传</span>
+      <span class="chip">缩进即结构</span>
+      <span class="chip">SVG 可再编辑</span>
+    </div>
+  </section>
+
+  <section class="tool-body">
+    <div class="tool-split wider-l">
+      <div class="pane">
+        <div class="pane-title">大纲（第一行为中心主题）</div>
+        <textarea id="outline" class="ta-code" rows="20" spellcheck="false"
+          placeholder="中心主题&#10;  分支一&#10;    子分支&#10;  分支二"></textarea>
+        <div class="tool-actions">
+          <button class="btn sm" id="render">生成导图</button>
+          <button class="btn sm ghost" id="sample">载入示例</button>
+          <button class="btn sm ghost" id="dl-png">下载 PNG ×2</button>
+          <button class="btn sm ghost" id="dl-svg">下载 SVG</button>
+        </div>
+        <div class="notice" style="margin-top:8px"><b>语法：</b>用 2 空格 / Tab 缩进表示层级；行首的 <code>-</code> 或 <code>•</code> 会被忽略。最多 6 层。</div>
+      </div>
+      <div class="pane">
+        <div class="pane-title">导图</div>
+        <div class="pane-box pad-0">
+          <canvas id="map" style="width:100%"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tool-foot">
+    <h2>同主题工具</h2>
+    <div class="related-grid" id="related"></div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="../js/catalog.js"></script>
+<script src="../js/site.js"></script>
+<script src="../js/tools/k05-mindmap.js"></script>
+</body>
+</html>

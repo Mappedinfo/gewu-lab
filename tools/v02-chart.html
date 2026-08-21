@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>图表工坊 V-02 · 格物 GEWU</title>
+<meta name="description" content="粘贴 CSV 即出图：折线、散点、柱状、直方图、饼图，自动统计摘要，导出 PNG / SVG。纯前端。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2325548F'/%3E%3Ctext x='16' y='23' font-size='18' text-anchor='middle' fill='%23FBF8EF' font-family='serif'%3E视%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../css/base.css">
+</head>
+<body data-page="V">
+
+<div id="site-header"></div>
+
+<main class="tool-wrap">
+  <nav class="crumbs"><a href="../index.html">格物</a> / <a href="../index.html#cat-V">视 · 可视化</a> / <span>V-02 图表工坊</span></nav>
+  <section class="tool-head">
+    <div>
+      <h1>图表工坊</h1>
+      <div class="en">CHART STUDIO</div>
+      <p class="desc">粘贴 CSV / TSV 数据即刻成图：折线、散点、柱状、直方图、饼图五种类型，自动生成均值、标准差等统计摘要，导出 PNG 或 SVG。</p>
+    </div>
+    <div class="meta">
+      <span class="chip blue">V-02 · 视</span>
+      <span class="chip">5 种图表</span>
+      <span class="chip">自动统计摘要</span>
+    </div>
+  </section>
+
+  <section class="tool-body">
+    <div class="tool-split wider-r" style="grid-template-columns: 1fr 2.2fr">
+      <div class="pane">
+        <div class="pane-title">数据（CSV / TSV）</div>
+        <textarea id="csv" class="ta-code" rows="12" spellcheck="false"
+          placeholder="year,exp1,exp2&#10;2019,3.2,2.8&#10;2020,4.5,3.9&#10;2021,5.1,4.6&#10;2022,6.8,5.2&#10;2023,7.4,6.1"></textarea>
+        <button class="btn sm ghost" id="sample">载入示例</button>
+        <div class="pane-title" style="margin-top:10px">数据预览（前 12 行）</div>
+        <div id="preview" class="pane-box" style="max-height:170px;overflow:auto;font-size:.74rem"></div>
+        <div class="pane-title" style="margin-top:10px">统计摘要</div>
+        <div id="stats" class="pane-box" style="max-height:150px;font-size:.76rem"></div>
+      </div>
+      <div class="pane">
+        <div class="form-row">
+          <div class="field"><label for="type">图表类型</label>
+            <select id="type">
+              <option value="line">折线图</option>
+              <option value="scatter">散点图</option>
+              <option value="bar">柱状图</option>
+              <option value="hist">直方图</option>
+              <option value="pie">饼图</option>
+            </select>
+          </div>
+          <div class="field"><label for="xcol">X / 标签列</label><select id="xcol"></select></div>
+          <div class="field grow"><label for="title">标题</label><input type="text" id="title" value="实验数据对比"></div>
+        </div>
+        <div class="form-row">
+          <div class="field grow"><label for="xlabel">X 轴标签</label><input type="text" id="xlabel" value="年份"></div>
+          <div class="field grow"><label for="ylabel">Y 轴标签</label><input type="text" id="ylabel" value="数值"></div>
+          <div class="field"><label for="theme">主题</label>
+            <select id="theme"><option value="light">宣纸（浅）</option><option value="dark">深夜（深）</option></select>
+          </div>
+        </div>
+        <div class="pane-title">Y 数据列（可多选；饼图取第一列）</div>
+        <div id="ycols" class="form-row" style="gap:8px"></div>
+        <div class="pane-box pad-0" style="margin-top:10px">
+          <canvas id="chart" style="width:100%"></canvas>
+        </div>
+        <div class="tool-actions" style="margin-top:10px">
+          <button class="btn sm" id="dl-png">下载 PNG ×2</button>
+          <button class="btn sm ghost" id="dl-svg">下载 SVG</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tool-foot">
+    <h2>同主题工具</h2>
+    <div class="related-grid" id="related"></div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="../js/catalog.js"></script>
+<script src="../js/site.js"></script>
+<script src="../js/tools/v02-chart.js"></script>
+</body>
+</html>

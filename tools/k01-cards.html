@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>知识卡片 K-01 · 格物 GEWU</title>
+<meta name="description" content="Markdown 自动分页成知识卡片：四种主题、3:4 与 1:1 比例，导出 PNG 长图。纯前端，零上传。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%233B6B4E'/%3E%3Ctext x='16' y='23' font-size='18' text-anchor='middle' fill='%23FBF8EF' font-family='serif'%3E传%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../css/base.css">
+</head>
+<body data-page="K">
+
+<div id="site-header"></div>
+
+<main class="tool-wrap">
+  <nav class="crumbs"><a href="../index.html">格物</a> / <a href="../index.html#cat-K">传 · 知识传播</a> / <span>K-01 知识卡片</span></nav>
+  <section class="tool-head">
+    <div>
+      <h1>知识卡片</h1>
+      <div class="en">KNOWLEDGE CARDS</div>
+      <p class="desc">把一篇 Markdown 笔记自动切成一张张竖版知识卡片：以 <code>## 标题</code> 或 <code>---</code> 分页，四种主题、两种比例，导出单张或整篇长图，适合发朋友圈、小红书与知识社群。</p>
+    </div>
+    <div class="meta">
+      <span class="chip green">K-01 · 传</span>
+      <span class="chip">4 主题 × 2 比例</span>
+      <span class="chip">导出长图</span>
+    </div>
+  </section>
+
+  <section class="tool-body">
+    <div class="tool-split wider-l">
+      <div class="pane">
+        <div class="pane-title">Markdown 源文</div>
+        <textarea id="md" class="ta-code" rows="16" spellcheck="false"
+          placeholder="# 标题&#10;&#10;## 小节一&#10;- 要点1&#10;- 要点2&#10;&#10;---&#10;&#10;## 小节二&#10;> 引用一句话"></textarea>
+        <div class="form-row">
+          <div class="field"><label for="theme">主题</label>
+            <select id="theme">
+              <option value="paper">宣纸 · 暖白</option>
+              <option value="indigo">靛蓝 · 深蓝</option>
+              <option value="vermilion">朱印 · 淡朱</option>
+              <option value="ink">玄墨 · 夜黑</option>
+            </select>
+          </div>
+          <div class="field"><label for="ratio">比例</label>
+            <select id="ratio"><option value="34">3:4 竖版</option><option value="11">1:1 方版</option></select>
+          </div>
+        </div>
+        <div class="tool-actions">
+          <button class="btn sm" id="render">生成卡片</button>
+          <button class="btn sm ghost" id="sample">载入示例</button>
+          <button class="btn sm ghost" id="dl-one">下载当前卡片</button>
+          <button class="btn sm ghost" id="dl-all">下载全部长图</button>
+        </div>
+        <div class="notice" style="margin-top:8px"><b>分页规则：</b>每个 <code>## 二级标题</code> 或 <code>---</code> 分隔线切一张卡片；文档首个 <code># 一级标题</code> 作为整套标题出现在第一张卡片顶部。支持加粗、列表、引用、行内代码。</div>
+      </div>
+      <div class="pane">
+        <div class="pane-title">预览</div>
+        <div id="preview" class="pane-box" style="display:flex;flex-direction:column;gap:16px;align-items:center;background:var(--surface-2)"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tool-foot">
+    <h2>同主题工具</h2>
+    <div class="related-grid" id="related"></div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="../js/catalog.js"></script>
+<script src="../js/site.js"></script>
+<script src="../js/tools/k01-cards.js"></script>
+</body>
+</html>

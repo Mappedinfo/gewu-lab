@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>代码分享图 K-03 · 格物 GEWU</title>
+<meta name="description" content="代码转精美分享图：语法高亮、行号、四种主题，导出 PNG / SVG。纯前端，零上传。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%233B6B4E'/%3E%3Ctext x='16' y='23' font-size='18' text-anchor='middle' fill='%23FBF8EF' font-family='serif'%3E传%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../css/base.css">
+<style>
+  #codeimg { max-width: 100%; height: auto; border-radius: 10px; box-shadow: var(--shadow); }
+</style>
+</head>
+<body data-page="K">
+
+<div id="site-header"></div>
+
+<main class="tool-wrap">
+  <nav class="crumbs"><a href="../index.html">格物</a> / <a href="../index.html#cat-K">传 · 知识传播</a> / <span>K-03 代码分享图</span></nav>
+  <section class="tool-head">
+    <div>
+      <h1>代码分享图</h1>
+      <div class="en">CODE SNAPSHOT</div>
+      <p class="desc">把一段代码变成一张精致的分享图：语法高亮、行号、窗口标题栏，四种主题可选。适合发技术博客、朋友圈与群聊，导出 PNG 或矢量 SVG。</p>
+    </div>
+    <div class="meta">
+      <span class="chip green">K-03 · 传</span>
+      <span class="chip">4 主题</span>
+      <span class="chip">PNG / SVG</span>
+    </div>
+  </section>
+
+  <section class="tool-body">
+    <div class="tool-split wider-l">
+      <div class="pane">
+        <div class="pane-title">代码</div>
+        <textarea id="code" class="ta-code" rows="14" spellcheck="false"
+          placeholder="def hello():&#10;    print(&#34;格物致知&#34;)"></textarea>
+        <div class="form-row">
+          <div class="field"><label for="lang">语言</label>
+            <select id="lang">
+              <option value="python">Python</option><option value="javascript">JavaScript</option>
+              <option value="typescript">TypeScript</option><option value="bash">Shell</option>
+              <option value="json">JSON</option><option value="r">R</option><option value="sql">SQL</option>
+              <option value="c">C</option><option value="cpp">C++</option><option value="java">Java</option>
+              <option value="go">Go</option><option value="rust">Rust</option><option value="css">CSS</option>
+              <option value="xml">XML/HTML</option><option value="yaml">YAML</option><option value="plaintext">纯文本</option>
+            </select>
+          </div>
+          <div class="field"><label for="theme2">主题</label>
+            <select id="theme2">
+              <option value="blueprint">蓝图</option><option value="midnight">深夜</option>
+              <option value="paper">宣纸</option><option value="newsprint">报刊</option>
+            </select>
+          </div>
+          <div class="field grow"><label for="fname">文件名</label><input type="text" id="fname" value="example.py"></div>
+        </div>
+        <label style="display:inline-flex;align-items:center;gap:6px;font-size:.85rem;color:var(--ink-2);margin-bottom:10px">
+          <input type="checkbox" id="wrap"> 长行自动换行
+        </label>
+        <div class="tool-actions">
+          <button class="btn sm" id="dl-png">下载 PNG ×2</button>
+          <button class="btn sm ghost" id="dl-svg">下载 SVG</button>
+          <button class="btn sm ghost" id="copy">复制代码</button>
+        </div>
+      </div>
+      <div class="pane">
+        <div class="pane-title">预览</div>
+        <div class="pane-box" style="display:grid;place-items:center;background:var(--surface-2)">
+          <canvas id="codeimg" style="display:none"></canvas>
+          <img id="imgout" alt="代码分享图预览">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tool-foot">
+    <h2>同主题工具</h2>
+    <div class="related-grid" id="related"></div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="../js/lib/highlight.min.js"></script>
+<script src="../js/catalog.js"></script>
+<script src="../js/site.js"></script>
+<script src="../js/tools/k03-codeimg.js"></script>
+</body>
+</html>

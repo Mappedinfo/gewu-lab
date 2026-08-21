@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>量纲换算 R-04 · 格物 GEWU</title>
+<meta name="description" content="科学单位换算：长度、质量、能量、压力等十类单位，科学计数法输出，附常用物理常数速查表。纯前端。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23C03A22'/%3E%3Ctext x='16' y='23' font-size='18' text-anchor='middle' fill='%23FBF8EF' font-family='serif'%3E格%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../css/base.css">
+</head>
+<body data-page="R">
+
+<div id="site-header"></div>
+
+<main class="tool-wrap">
+  <nav class="crumbs"><a href="../index.html">格物</a> / <a href="../index.html#cat-R">研 · 科研</a> / <span>R-04 量纲换算</span></nav>
+  <section class="tool-head">
+    <div>
+      <h1>量纲换算</h1>
+      <div class="en">UNITS & CONSTANTS</div>
+      <p class="desc">科学单位换算与常用物理常数速查。结果支持科学计数法输出，适合量级估算与论文核对。</p>
+    </div>
+    <div class="meta">
+      <span class="chip accent">R-04 · 研</span>
+      <span class="chip">10 类单位</span>
+      <span class="chip">14 个物理常数</span>
+    </div>
+  </section>
+
+  <section class="tool-body">
+    <div class="tool-split wider-l">
+      <div class="pane">
+        <div class="pane-title">单位换算</div>
+        <div class="form-row">
+          <div class="field grow">
+            <label for="cat">类别</label>
+            <select id="cat"></select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field grow">
+            <label for="val">数值</label>
+            <input type="number" id="val" value="1" step="any">
+          </div>
+          <div class="field">
+            <label for="from">从</label>
+            <select id="from"></select>
+          </div>
+          <div class="field">
+            <label for="to">到</label>
+            <select id="to"></select>
+          </div>
+        </div>
+        <div class="form-row" style="margin-top:4px">
+          <label style="display:inline-flex;align-items:center;gap:6px;font-size:.85rem;color:var(--ink-2)">
+            <input type="checkbox" id="sci"> 科学计数法显示
+          </label>
+          <button class="btn sm" id="swap" style="margin-left:auto">⇄ 互换单位</button>
+        </div>
+        <div class="pane-box" style="margin-top:14px;text-align:center">
+          <div class="muted mono" style="font-size:.72rem;letter-spacing:.12em">RESULT</div>
+          <div id="result" style="font-family:var(--font-serif);font-size:2.1rem;font-weight:700;padding:10px 0 4px">—</div>
+          <div id="result-detail" class="muted mono" style="font-size:.78rem"></div>
+        </div>
+        <div class="notice" style="margin-top:12px"><b>换算关系：</b><span id="chain"></span></div>
+      </div>
+      <div class="pane">
+        <div class="pane-title">常用物理常数（点击复制）</div>
+        <div class="pane-box pad-0" id="consts" style="max-height:420px"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tool-foot">
+    <h2>同主题工具</h2>
+    <div class="related-grid" id="related"></div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="../js/catalog.js"></script>
+<script src="../js/site.js"></script>
+<script src="../js/tools/r04-units.js"></script>
+</body>
+</html>

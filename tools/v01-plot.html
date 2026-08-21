@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>函数绘图仪 V-01 · 格物 GEWU</title>
+<meta name="description" content="多函数二维绘图：拖拽平移、滚轮缩放、自动纵轴范围，导出 SVG / PNG。纯前端。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2325548F'/%3E%3Ctext x='16' y='23' font-size='18' text-anchor='middle' fill='%23FBF8EF' font-family='serif'%3E视%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../css/base.css">
+<style>
+  .fn-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .fn-row .swatch { width: 14px; height: 14px; border-radius: 3px; flex: none; border: 1px solid rgba(0,0,0,.15); }
+  .fn-row input[type="text"] { flex: 1; font-family: var(--font-mono); font-size: .84rem; }
+  .fn-row button { flex: none; }
+  #plot { width: 100%; cursor: grab; touch-action: none; }
+  #plot:active { cursor: grabbing; }
+</style>
+</head>
+<body data-page="V">
+
+<div id="site-header"></div>
+
+<main class="tool-wrap">
+  <nav class="crumbs"><a href="../index.html">格物</a> / <a href="../index.html#cat-V">视 · 可视化</a> / <span>V-01 函数绘图仪</span></nav>
+  <section class="tool-head">
+    <div>
+      <h1>函数绘图仪</h1>
+      <div class="en">FUNCTION PLOTTER</div>
+      <p class="desc">最多四条函数曲线同图对比。支持 <code>sin cos tan log ln sqrt abs exp</code> 与 <code>^</code> 幂运算、常数 <code>π e</code>。拖动平移、滚轮缩放，导出矢量 SVG 或高清 PNG。</p>
+    </div>
+    <div class="meta">
+      <span class="chip blue">V-01 · 视</span>
+      <span class="chip">平移 / 缩放</span>
+      <span class="chip">导出 SVG / PNG</span>
+    </div>
+  </section>
+
+  <section class="tool-body">
+    <div class="tool-split wider-r" style="grid-template-columns: 1fr 2.2fr">
+      <div class="pane">
+        <div class="pane-title">函数列表</div>
+        <div id="fns"></div>
+        <button class="btn sm ghost" id="add-fn" style="width:100%">+ 添加函数</button>
+        <div class="form-row" style="margin-top:12px">
+          <div class="field grow"><label for="xmin">X 最小</label><input type="number" id="xmin" value="-6" step="any"></div>
+          <div class="field grow"><label for="xmax">X 最大</label><input type="number" id="xmax" value="6" step="any"></div>
+        </div>
+        <div class="form-row">
+          <div class="field grow"><label for="ymin">Y 最小（留空 = 自动）</label><input type="number" id="ymin" step="any" placeholder="自动"></div>
+          <div class="field grow"><label for="ymax">Y 最大（留空 = 自动）</label><input type="number" id="ymax" step="any" placeholder="自动"></div>
+        </div>
+        <div class="tool-actions">
+          <button class="btn sm" id="redraw">重绘</button>
+          <button class="btn sm ghost" id="reset">复位视图</button>
+          <button class="btn sm ghost" id="auto-y">自动纵轴</button>
+        </div>
+        <div class="notice" style="margin-top:10px">
+          <b>语法：</b><code>x^2</code>、<code>sin(x)/x</code>、<code>log(x)</code>（log=常用对数，ln=自然对数）、<code>sqrt(1-x^2)</code>。<br>
+          <b>交互：</b>拖拽平移 · 滚轮缩放。
+        </div>
+      </div>
+      <div class="pane">
+        <div class="pane-title">绘图区</div>
+        <div class="pane-box pad-0" style="position:relative">
+          <canvas id="plot" width="860" height="520"></canvas>
+        </div>
+        <div class="tool-actions" style="margin-top:10px">
+          <button class="btn sm" id="dl-png">下载 PNG ×2</button>
+          <button class="btn sm ghost" id="dl-svg">下载 SVG</button>
+          <span class="muted mono" id="view-info" style="margin-left:auto;font-size:.74rem"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tool-foot">
+    <h2>同主题工具</h2>
+    <div class="related-grid" id="related"></div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="../js/catalog.js"></script>
+<script src="../js/site.js"></script>
+<script src="../js/tools/v01-plot.js"></script>
+</body>
+</html>

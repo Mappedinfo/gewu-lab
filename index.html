@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>格物 GEWU · 科研、可视化与知识传播的纯前端工具集</title>
+<meta name="description" content="格物：面向科研工作流的纯前端工具集——公式、笔记、文献、量纲、随机化、绘图、图表、分布、图谱、卡片、排版、演示。全部本地处理，零上传，无账号，无留言。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23C03A22'/%3E%3Ctext x='16' y='23' font-size='18' text-anchor='middle' fill='%23FBF8EF' font-family='serif'%3E格%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/base.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700;900&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body data-page="home">
+
+<div id="site-header"></div>
+
+<main>
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div>
+        <div class="hero-en rise d1">GEWU · SCIENTIFIC TOOLKIT · 纯前端 · 零上传</div>
+        <h1 class="rise d2">格物 <span class="seal-word">致知</span><br>让科研的工具，留在浏览器里</h1>
+        <p class="hero-sub rise d3">
+          一个面向 <b>科研 · 可视化 · 知识传播</b> 的本地工具集：公式、笔记、文献、绘图、
+          统计分布、知识卡片与演示文稿——全部在浏览器内完成，文件不出本机，
+          无账号、无留言、无广告、无追踪。
+        </p>
+        <div class="hero-actions rise d4">
+          <a class="btn" href="#tools">浏览工具目录 ↓</a>
+          <a class="btn ghost" href="about.html">设计理念</a>
+        </div>
+        <div class="hero-stats rise d5" id="hero-stats"></div>
+      </div>
+      <aside class="hero-plate rise d3" aria-label="三大主题">
+        <div class="plate-row">
+          <span class="dot" style="background:var(--accent)">研</span>
+          <div>
+            <div class="t">研 · 科研</div>
+            <p class="d">公式、笔记、文献、量纲、随机化——日常科研工序</p>
+          </div>
+          <span class="code-badge" id="plate-count-R">—</span>
+        </div>
+        <div class="plate-row">
+          <span class="dot" style="background:var(--blue)">视</span>
+          <div>
+            <div class="t">视 · 可视化</div>
+            <p class="d">函数、图表、分布、图谱——让规律自己说话</p>
+          </div>
+          <span class="code-badge" id="plate-count-V">—</span>
+        </div>
+        <div class="plate-row">
+          <span class="dot" style="background:var(--green)">传</span>
+          <div>
+            <div class="t">传 · 知识传播</div>
+            <p class="d">卡片、排版、代码图、幻灯片、导图——把知识送出去</p>
+          </div>
+          <span class="code-badge" id="plate-count-K">—</span>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ 工作流 ============ -->
+  <section class="section" id="workflow">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="kicker">WORKFLOW · 一条科研流水线</span>
+        <h2>从读到传的六道工序</h2>
+        <p class="sub">与通用工具箱不同，格物的工具按科研工作流编排，每件都落在真实工序上。</p>
+      </div>
+      <div class="flow reveal" id="flow"></div>
+    </div>
+  </section>
+
+  <!-- ============ 工具目录 ============ -->
+  <section class="section" id="tools">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="kicker">CATALOG · 标本目录</span>
+        <h2>十四件工具</h2>
+        <p class="sub">每件都是一张标本卡：编号、主题、用途。全部可在本页筛选。</p>
+      </div>
+      <div class="filter-bar reveal">
+        <input type="search" id="search" placeholder="搜索工具 / 标签，如 公式、CSV…" aria-label="搜索工具">
+        <button class="fchip on" data-f="all">全部</button>
+        <button class="fchip" data-f="R">研 · 科研</button>
+        <button class="fchip" data-f="V">视 · 可视化</button>
+        <button class="fchip" data-f="K">传 · 知识传播</button>
+        <span class="muted mono" id="result-count" style="margin-left:auto;font-size:.74rem"></span>
+      </div>
+      <div id="catalog"></div>
+    </div>
+  </section>
+
+  <!-- ============ 原则 ============ -->
+  <section class="section" id="principles">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="kicker">PRINCIPLES · 四条原则</span>
+        <h2>我们刻意不做的事</h2>
+        <p class="sub">差异化来自克制：不做大而全，不做账号与留言，不碰你的数据。</p>
+      </div>
+      <div class="principles">
+        <div class="principle reveal d1">
+          <div class="pno">P·01</div>
+          <div class="pt">没有留言工具</div>
+          <p class="pd">知识传播是单行道。本站不设评论、留言板与聊天，把注意力留给内容本身。</p>
+        </div>
+        <div class="principle reveal d2">
+          <div class="pno">P·02</div>
+          <div class="pt">不做大而全</div>
+          <p class="pd">不复制通用工具箱的 80+ 工具。只深耕科研工作流的 14 件，件件可用、件件有位置。</p>
+        </div>
+        <div class="principle reveal d3">
+          <div class="pno">P·03</div>
+          <div class="pt">数据不出浏览器</div>
+          <p class="pd">没有服务器、没有上传、没有分析脚本。断网也能用，关掉页面即销毁。</p>
+        </div>
+        <div class="principle reveal d4">
+          <div class="pno">P·04</div>
+          <div class="pt">无账号无广告</div>
+          <p class="pd">不注册、不登录、不弹广告。工具即开即用，像文具一样朴素可靠。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="js/catalog.js"></script>
+<script src="js/site.js"></script>
+<script src="js/index.js"></script>
+</body>
+</html>

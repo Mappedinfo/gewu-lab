@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>公式工坊 R-01 · 格物 GEWU</title>
+<meta name="description" content="LaTeX 公式实时渲染：符号面板一键插入、行内/块级切换、导出 SVG 与高清 PNG。纯前端，零上传。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23C03A22'/%3E%3Ctext x='16' y='23' font-size='18' text-anchor='middle' fill='%23FBF8EF' font-family='serif'%3E格%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../js/lib/katex.min.css">
+</head>
+<body data-page="R">
+
+<div id="site-header"></div>
+
+<main class="tool-wrap">
+  <nav class="crumbs"><a href="../index.html">格物</a> / <a href="../index.html#cat-R">研 · 科研</a> / <span>R-01 公式工坊</span></nav>
+  <section class="tool-head">
+    <div>
+      <h1>公式工坊</h1>
+      <div class="en">LA TEX FORMULA WORKSHOP</div>
+      <p class="desc">输入 LaTeX 公式即时渲染。左侧符号面板点按即插，无需记忆命令；右侧一键导出矢量 SVG 或高清 PNG，可直接放入论文、PPT 与公众号。</p>
+    </div>
+    <div class="meta">
+      <span class="chip accent">R-01 · 研</span>
+      <span class="chip">纯前端 · 零上传</span>
+      <span class="chip">支持中文 \text{}</span>
+    </div>
+  </section>
+
+  <section class="tool-body">
+    <div class="tool-actions" style="margin-bottom:14px">
+      <select id="sample" style="max-width:280px" aria-label="示例公式">
+        <option value="">— 载入示例 —</option>
+        <option value="e^{i\pi}+1=0">欧拉恒等式</option>
+        <option value="f(x)=\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}">正态分布密度</option>
+        <option value="P(A|B)=\frac{P(B|A)\,P(A)}{P(B)}">贝叶斯定理</option>
+        <option value="\hat{f}(\xi)=\int_{-\infty}^{\infty} f(x)\,e^{-2\pi i x\xi}\,dx">傅里叶变换</option>
+        <option value="\nabla\times\mathbf{B}=\mu_0\left(\mathbf{J}+\varepsilon_0\frac{\partial\mathbf{E}}{\partial t}\right)">麦克斯韦方程组</option>
+        <option value="\begin{pmatrix} a_{11} & a_{12} & a_{13} \\ a_{21} & a_{22} & a_{23} \end{pmatrix}">矩阵</option>
+        <option value="f(x)=\sum_{n=0}^{\infty}\frac{f^{(n)}(a)}{n!}(x-a)^n">泰勒展开</option>
+        <option value="P(X=k)=\frac{\lambda^k e^{-\lambda}}{k!}">泊松分布</option>
+        <option value="\lim_{n\to\infty}\left(1+\frac{1}{n}\right)^n=e">自然常数</option>
+        <option value="\begin{cases} x+y=3 \\ 2x-y=1 \end{cases}">方程组</option>
+      </select>
+      <span class="chip">行内/独立行</span>
+      <label style="display:inline-flex;align-items:center;gap:6px;font-size:.85rem;color:var(--ink-2)">
+        <input type="checkbox" id="display" checked> 独立行显示
+      </label>
+    </div>
+
+    <div class="tool-split">
+      <div class="pane">
+        <div class="pane-title">输入 LaTeX</div>
+        <textarea id="latex-input" class="ta-code" rows="6" spellcheck="false"
+          placeholder="例如：\int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}">\int_0^\infty e^{-x^2}\,dx=\frac{\sqrt{\pi}}{2}</textarea>
+        <div class="pane-title">符号面板（点按插入）</div>
+        <div id="symbols" class="pane-box" style="max-height:230px"></div>
+      </div>
+      <div class="pane">
+        <div class="pane-title">实时预览</div>
+        <div id="preview" class="pane-box preview-box" style="min-height:150px;display:grid;place-items:center;overflow-x:auto"></div>
+        <div class="tool-actions">
+          <button class="btn sm" id="copy-latex">复制 LaTeX</button>
+          <button class="btn sm ghost" id="copy-svg">复制 SVG</button>
+          <button class="btn sm ghost" id="dl-svg">下载 SVG</button>
+          <button class="btn sm ghost" id="dl-png">下载 PNG ×2</button>
+          <button class="btn sm ghost" id="dl-png4">下载 PNG ×4</button>
+        </div>
+        <div class="notice" style="margin-top:8px"><b>说明：</b>SVG 用 foreignObject 内嵌渲染结果，是浏览器所见即所得的真实矢量化；PNG 以 2× / 4× 超采样导出，适合插入论文与 PPT。全程本地处理。</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tool-foot">
+    <h2>同主题工具</h2>
+    <div class="related-grid" id="related"></div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="../js/lib/katex.min.js"></script>
+<script src="../js/catalog.js"></script>
+<script src="../js/site.js"></script>
+<script src="../js/tools/r01-formula.js"></script>
+</body>
+</html>

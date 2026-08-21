@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>分布实验室 V-03 · 格物 GEWU</title>
+<meta name="description" content="正态、t、χ²、F、二项、泊松等八种分布：参数滑杆、概率与临界值计算、双分布对比。纯前端。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2325548F'/%3E%3Ctext x='16' y='23' font-size='18' text-anchor='middle' fill='%23FBF8EF' font-family='serif'%3E视%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../css/base.css">
+</head>
+<body data-page="V">
+
+<div id="site-header"></div>
+
+<main class="tool-wrap">
+  <nav class="crumbs"><a href="../index.html">格物</a> / <a href="../index.html#cat-V">视 · 可视化</a> / <span>V-03 分布实验室</span></nav>
+  <section class="tool-head">
+    <div>
+      <h1>分布实验室</h1>
+      <div class="en">DISTRIBUTION LAB</div>
+      <p class="desc">八种常用概率分布的 PDF / CDF 直观实验台：拖动参数滑杆看曲线变化，输入 x 求 <code>P(X ≤ x)</code>，一键得到常用临界值，还可叠加第二条分布做对比（如 t 与正态）。</p>
+    </div>
+    <div class="meta">
+      <span class="chip blue">V-03 · 视</span>
+      <span class="chip">8 种分布</span>
+      <span class="chip">临界值表</span>
+    </div>
+  </section>
+
+  <section class="tool-body">
+    <div class="tool-split wider-r" style="grid-template-columns: 1fr 2.1fr">
+      <div class="pane">
+        <div class="pane-title">主分布</div>
+        <div class="field">
+          <select id="dist">
+            <option value="normal">正态分布 N(μ, σ²)</option>
+            <option value="t">学生 t 分布</option>
+            <option value="chi2">卡方分布 χ²(k)</option>
+            <option value="f">F 分布</option>
+            <option value="binom">二项分布 B(n, p)</option>
+            <option value="poisson">泊松分布 P(λ)</option>
+            <option value="exp">指数分布 Exp(λ)</option>
+            <option value="uniform">均匀分布 U(a, b)</option>
+          </select>
+        </div>
+        <div id="params"></div>
+        <div class="form-row">
+          <div class="field grow">
+            <label for="x">x =（阴影 P(X ≤ x)）</label>
+            <input type="number" id="x" step="any" value="0">
+          </div>
+          <button class="btn sm ghost" id="x-mean">用均值</button>
+        </div>
+        <hr style="border:none;border-top:1px dashed var(--line);margin:14px 0">
+        <div class="pane-title">对比分布（叠加显示）</div>
+        <div class="field">
+          <select id="dist2"><option value="">不对比</option>
+            <option value="normal">正态分布</option><option value="t">学生 t 分布</option>
+            <option value="chi2">卡方分布</option><option value="f">F 分布</option>
+            <option value="binom">二项分布</option><option value="poisson">泊松分布</option>
+            <option value="exp">指数分布</option><option value="uniform">均匀分布</option>
+          </select>
+        </div>
+        <div id="params2"></div>
+      </div>
+
+      <div class="pane">
+        <div class="pane-title">曲线</div>
+        <div class="pane-box pad-0">
+          <canvas id="canvas" style="width:100%"></canvas>
+        </div>
+        <div id="stats" class="pane-box" style="margin-top:10px;font-size:.8rem"></div>
+        <div class="tool-actions" style="margin-top:10px">
+          <button class="btn sm" id="dl-png">下载 PNG ×2</button>
+          <button class="btn sm ghost" id="dl-png4">下载 PNG ×4</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tool-foot">
+    <h2>同主题工具</h2>
+    <div class="related-grid" id="related"></div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="../js/catalog.js"></script>
+<script src="../js/site.js"></script>
+<script src="../js/tools/v03-dist.js"></script>
+</body>
+</html>

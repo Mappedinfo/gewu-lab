@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>文献清洗 R-03 · 格物 GEWU</title>
+<meta name="description" content="BibTeX 条目体检：重复键、缺失必填字段、年份异常检测，按类型/年份统计，一键整理导出。纯前端，零上传。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23C03A22'/%3E%3Ctext x='16' y='23' font-size='18' text-anchor='middle' fill='%23FBF8EF' font-family='serif'%3E格%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="../css/base.css">
+</head>
+<body data-page="R">
+
+<div id="site-header"></div>
+
+<main class="tool-wrap">
+  <nav class="crumbs"><a href="../index.html">格物</a> / <a href="../index.html#cat-R">研 · 科研</a> / <span>R-03 文献清洗</span></nav>
+  <section class="tool-head">
+    <div>
+      <h1>文献清洗</h1>
+      <div class="en">BIBTEX CLEANER</div>
+      <p class="desc">把从 Zotero / 期刊页 / 手写收集来的 BibTeX 粘贴进来：自动发现重复键、缺失必填字段、年份异常，按类型与年份统计，再一键整理导出。</p>
+    </div>
+    <div class="meta">
+      <span class="chip accent">R-03 · 研</span>
+      <span class="chip">体检 + 整理</span>
+      <span class="chip">复制 \cite 键列表</span>
+    </div>
+  </section>
+
+  <section class="tool-body">
+    <div class="tool-actions" style="margin-bottom:14px">
+      <button class="btn sm ghost" id="sample">载入示例</button>
+      <button class="btn sm ghost" id="dedupe">去重（保留首个）</button>
+      <select id="sort" style="width:auto" aria-label="排序方式">
+        <option value="">保持原顺序</option>
+        <option value="key">按键名排序</option>
+        <option value="year-desc">按年份降序</option>
+        <option value="type">按类型排序</option>
+      </select>
+      <button class="btn sm" id="copy-keys">复制引用键列表</button>
+      <button class="btn sm ghost" id="copy-result">复制整理结果</button>
+      <button class="btn sm ghost" id="dl">下载 .bib</button>
+      <span class="chip" id="entry-count" style="margin-left:auto">—</span>
+    </div>
+
+    <div class="tool-split">
+      <div class="pane">
+        <div class="pane-title">粘贴 BibTeX</div>
+        <textarea id="bib-input" class="ta-code" rows="24" spellcheck="false"
+          placeholder="@article{key2024,&#10;  author = {A. Author},&#10;  title  = {A Great Paper},&#10;  journal = {Nature},&#10;  year   = {2024}&#10;}"></textarea>
+      </div>
+      <div class="pane" style="gap:14px">
+        <div>
+          <div class="pane-title">统计</div>
+          <div id="stats" class="pane-box"></div>
+        </div>
+        <div>
+          <div class="pane-title">体检报告</div>
+          <div id="issues" class="pane-box" style="max-height:220px"></div>
+        </div>
+        <div>
+          <div class="pane-title">年份分布</div>
+          <div class="pane-box pad-0" style="height:110px"><canvas id="year-chart" style="width:100%;height:100%"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tool-foot">
+    <h2>同主题工具</h2>
+    <div class="related-grid" id="related"></div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="../js/catalog.js"></script>
+<script src="../js/site.js"></script>
+<script src="../js/tools/r03-bibclean.js"></script>
+</body>
+</html>
