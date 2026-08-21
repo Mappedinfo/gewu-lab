@@ -107,6 +107,6 @@
     if (tr) GEWU.copyText(tr.dataset.v);
   });
 
-  renderRelated($("#related"), ["R-05", "R-02", "V-03"]);
+  renderRelated($("#related"), ["R-05", "R-06", "V-03"]);
   fillUnits();
 })();

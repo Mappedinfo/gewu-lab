@@ -1,0 +1,21 @@
+{
+  "id": "v07-shouldibuy",
+  "code": "V-07",
+  "cat": "V",
+  "name": "AI 硬件性价比",
+  "en": "Should I Buy",
+  "desc": "交互式散点图：本地跑 AI 模型的硬件能力 × 自部署价格——按显存/价格/功耗筛选，找出最适合你的本地推理设备。",
+  "tags": [
+    "硬件",
+    "性价比",
+    "散点图"
+  ],
+  "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"><path d=\"M4 19V6M20 19H4M19 19V9\"/><circle cx=\"9\" cy=\"14\" r=\"2\" fill=\"currentColor\" opacity=\".5\" stroke=\"none\"/><circle cx=\"14\" cy=\"11\" r=\"2\" fill=\"currentColor\" opacity=\".8\" stroke=\"none\"/><circle cx=\"17\" cy=\"15\" r=\"2\" fill=\"currentColor\" opacity=\".3\" stroke=\"none\"/></svg>",
+  "thumb": "<svg viewBox=\"0 0 120 80\">\n  <rect width=\"120\" height=\"80\" fill=\"var(--paper)\"/>\n  <path d=\"M24 64h84M28 64V16\" stroke=\"var(--line-strong)\" stroke-width=\"1.4\"/>\n  <g fill=\"var(--blue)\" opacity=\".85\">\n    <circle cx=\"34\" cy=\"52\" r=\"3.2\"/><circle cx=\"46\" cy=\"44\" r=\"3.2\"/><circle cx=\"58\" cy=\"48\" r=\"3.2\"/>\n    <circle cx=\"70\" cy=\"36\" r=\"3.2\"/><circle cx=\"82\" cy=\"40\" r=\"3.2\"/><circle cx=\"94\" cy=\"28\" r=\"3.2\"/>\n  </g>\n  <g fill=\"var(--accent)\">\n    <circle cx=\"40\" cy=\"56\" r=\"3\"/><circle cx=\"64\" cy=\"50\" r=\"3\"/><circle cx=\"88\" cy=\"34\" r=\"3\"/>\n  </g>\n  <text x=\"24\" y=\"76\" font-family=\"monospace\" font-size=\"8.5\" fill=\"var(--ink-3)\">硬件能力 × 自部署价格</text>\n</svg>",
+  "entry": {
+    "type": "iframe",
+    "src": "index.html"
+  },
+  "version": "1.0.0",
+  "repo": "mappedinfo/ShouldIBuy"
+}

@@ -231,6 +231,6 @@ ViT,ResNet`;
   });
   $("#dl-png").addEventListener("click", () => GEWU.downloadCanvas(canvas, "graph.png", 2));
 
-  renderRelated($("#related"), ["V-03", "V-02", "V-05"]);
+  renderRelated($("#related"), ["V-03", "V-02", "V-07"]);
   build(); startSim(); renderStats();
 })();

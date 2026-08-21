@@ -143,6 +143,6 @@
   });
 
   /* ---------- 相关工具 ---------- */
-  renderRelated($("#related"), ["R-02", "R-03", "R-04"]);
+  renderRelated($("#related"), ["R-02", "R-03", "R-06"]);
   render();
 })();

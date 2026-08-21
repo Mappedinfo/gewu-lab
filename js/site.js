@@ -196,6 +196,7 @@
   }
 
   function footerHTML() {
+    const countOf = (cat) => (typeof GEWU_CATALOG !== "undefined" ? GEWU_CATALOG.filter(t => t.cat === cat).length : "—");
     const catLinks = Object.values(CAT_LINKS).map(c => `
       <div>
         <h4>${c.name}</h4>
@@ -228,9 +229,9 @@
         <div>
           <h4>三大主题</h4>
           <div class="footer-links">
-            <a href="index.html#cat-R">研 · 科研（5 件）</a>
-            <a href="index.html#cat-V">视 · 可视化（4 件）</a>
-            <a href="index.html#cat-K">传 · 知识传播（5 件）</a>
+            <a href="index.html#cat-R">研 · 科研（${countOf("R")} 件）</a>
+            <a href="index.html#cat-V">视 · 可视化（${countOf("V")} 件）</a>
+            <a href="index.html#cat-K">传 · 知识传播（${countOf("K")} 件）</a>
             <a href="about.html">关于格物</a>
             <a href="index.html#workflow">科研工作流</a>
             <a href="index.html#principles">设计原则</a>

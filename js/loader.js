@@ -81,8 +81,11 @@
     const entry = manifest.entry || {};
     if (entry.type === "iframe") {
       const iframe = document.createElement("iframe");
-      iframe.src = entry.src;
-      iframe.style.cssText = "width:100%;min-height:70vh;border:1px solid var(--line);border-radius:8px;background:var(--surface)";
+      /* 相对 src 基于插件目录解析 */
+      iframe.src = /^(https?:|data:|about:)/i.test(entry.src || "")
+        ? entry.src
+        : `${pluginBase(id)}/${String(entry.src || "index.html").replace(/^\.?\//, "")}`;
+      iframe.style.cssText = "width:100%;min-height:72vh;border:1px solid var(--line);border-radius:8px;background:var(--surface)";
       mountEl.appendChild(iframe);
       return;
     }

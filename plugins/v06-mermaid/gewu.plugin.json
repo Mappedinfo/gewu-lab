@@ -1,0 +1,21 @@
+{
+  "id": "v06-mermaid",
+  "code": "V-06",
+  "cat": "V",
+  "name": "图表编辑器",
+  "en": "Mermaid Diagram",
+  "desc": "Mermaid 图表实时编辑器：流程图、时序图、类图、ER 图、甘特图——输入即渲染，缩放预览，导出 PNG，复制语法。",
+  "tags": [
+    "图表",
+    "Mermaid",
+    "流程图"
+  ],
+  "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"><rect x=\"3\" y=\"4\" width=\"6\" height=\"5\" rx=\"1.5\"/><rect x=\"15\" y=\"4\" width=\"6\" height=\"5\" rx=\"1.5\"/><rect x=\"9\" y=\"15\" width=\"6\" height=\"5\" rx=\"1.5\"/><path d=\"M9 6.5h6M12 9v6M15 8.5l3 2.5M6 8.5l3 2.5\"/></svg>",
+  "thumb": "<svg viewBox=\"0 0 120 80\">\n  <rect width=\"120\" height=\"80\" fill=\"var(--paper)\"/>\n  <rect x=\"14\" y=\"12\" width=\"22\" height=\"16\" rx=\"3\" fill=\"var(--surface)\" stroke=\"var(--accent)\" stroke-width=\"1.5\"/>\n  <rect x=\"84\" y=\"12\" width=\"22\" height=\"16\" rx=\"3\" fill=\"var(--surface)\" stroke=\"var(--blue)\" stroke-width=\"1.5\"/>\n  <rect x=\"46\" y=\"52\" width=\"28\" height=\"16\" rx=\"3\" fill=\"var(--surface)\" stroke=\"var(--green)\" stroke-width=\"1.5\"/>\n  <path d=\"M36 20h48M47 28l10 24M73 28l-10 24\" fill=\"none\" stroke=\"var(--line-strong)\" stroke-width=\"1.6\"/>\n  <circle cx=\"47\" cy=\"28\" r=\"2.4\" fill=\"var(--accent)\"/><circle cx=\"73\" cy=\"28\" r=\"2.4\" fill=\"var(--blue)\"/>\n  <text x=\"14\" y=\"10\" font-family=\"monospace\" font-size=\"8\" fill=\"var(--ink-3)\">flowchart · sequence · class</text>\n</svg>",
+  "entry": {
+    "type": "iframe",
+    "src": "index.html"
+  },
+  "version": "1.0.0",
+  "repo": "mappedinfo/mermaid"
+}

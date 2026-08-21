@@ -276,6 +276,6 @@
 
   input.addEventListener("input", () => { state.deduped = false; render(); });
 
-  renderRelated($("#related"), ["R-02", "R-01", "K-04"]);
+  renderRelated($("#related"), ["R-02", "R-01", "R-06"]);
   render();
 })();

@@ -1,0 +1,21 @@
+{
+  "id": "r06-visual-sage",
+  "code": "R-06",
+  "cat": "R",
+  "name": "代数工作台",
+  "en": "Visual Sage",
+  "desc": "浏览器内符号计算（Pyodide WASM + SymPy）：选任务→填参数→自动生成代码并出结果——求导、积分、极限、方程求解、矩阵运算。",
+  "tags": [
+    "符号计算",
+    "SymPy",
+    "Pyodide"
+  ],
+  "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 19c2-6 4-10 7-12s5-2 7-1\"/><path d=\"M5 5h6M8 8h4\"/><path d=\"M5 19h14\"/><text x=\"16\" y=\"17\" font-size=\"11\" font-family=\"serif\">∑</text></svg>",
+  "thumb": "<svg viewBox=\"0 0 120 80\">\n  <rect width=\"120\" height=\"80\" fill=\"var(--paper)\"/>\n  <rect x=\"12\" y=\"14\" width=\"96\" height=\"30\" rx=\"4\" fill=\"var(--surface)\" stroke=\"var(--line-strong)\"/>\n  <text x=\"20\" y=\"34\" font-family=\"serif\" font-size=\"15\" fill=\"var(--ink)\">∫ x² dx</text>\n  <path d=\"M84 18l14 8-14 8z\" fill=\"var(--accent)\" opacity=\".85\"/>\n  <text x=\"20\" y=\"40\" font-family=\"monospace\" font-size=\"8.5\" fill=\"var(--ink-3)\">sympy.integrate(x**2, x)</text>\n  <rect x=\"12\" y=\"50\" width=\"96\" height=\"20\" rx=\"4\" fill=\"var(--green-soft)\" stroke=\"var(--green)\" stroke-opacity=\".5\" stroke-dasharray=\"3 3\"/>\n  <text x=\"20\" y=\"64\" font-family=\"serif\" font-size=\"12\" fill=\"var(--green-ink)\">= x³/3 + C</text>\n  <text x=\"12\" y=\"10\" font-family=\"monospace\" font-size=\"8\" fill=\"var(--ink-3)\">Pyodide · SymPy · 本地 WASM</text>\n</svg>",
+  "entry": {
+    "type": "iframe",
+    "src": "index.html"
+  },
+  "version": "1.0.0",
+  "repo": "mappedinfo/math"
+}

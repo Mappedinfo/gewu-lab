@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>本地跑 AI 模型：硬件能力 vs 自部署价格 · 基于 canirun.ai</title>
+<script src="vendor/echarts.min.js"></script>
+<style>
+  :root {
+    --bg: #0e1116; --panel: #161b24; --border: #2a3140;
+    --text: #e6e9ef; --muted: #98a2b3; --accent: #76b900;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; }
+  header { padding: 22px 28px 10px; }
+  h1 { font-size: 20px; font-weight: 700; }
+  h1 .tag { font-size: 12px; font-weight: 500; color: var(--accent);
+    border: 1px solid var(--accent); border-radius: 999px; padding: 2px 10px;
+    vertical-align: 2px; margin-left: 10px; }
+  .sub { color: var(--muted); font-size: 13px; margin-top: 6px; line-height: 1.6; }
+  .controls { display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+    padding: 14px 28px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    background: var(--panel); }
+  .controls label { font-size: 13px; color: var(--muted); display: flex; gap: 8px; align-items: center; }
+  select, button {
+    background: #0e1116; color: var(--text); border: 1px solid var(--border);
+    border-radius: 8px; padding: 6px 10px; font-size: 13px; cursor: pointer; }
+  select:hover, button:hover { border-color: var(--accent); }
+  button.active { border-color: var(--accent); color: var(--accent); }
+  main { display: grid; grid-template-columns: minmax(0, 1fr) 430px; gap: 16px; padding: 16px 28px; }
+  @media (max-width: 1100px) { main { grid-template-columns: 1fr; } }
+  #chart { height: 660px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; }
+  .side { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; }
+  .card h2 { font-size: 14px; margin-bottom: 8px; }
+  .card .note { font-size: 12px; color: var(--muted); line-height: 1.7; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th, td { text-align: left; padding: 5px 6px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  th { color: var(--muted); font-weight: 500; }
+  tbody tr { cursor: pointer; }
+  tbody tr:hover { background: #1d2530; }
+  .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; }
+  .used-mark { color: var(--muted); font-size: 11px; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .table-wrap { overflow: auto; max-height: 430px; }
+  footer { padding: 8px 28px 26px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+  footer a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+<header>
+  <h1>本地跑 AI 模型：硬件能力 vs 自部署价格<span class="tag">canirun.ai 引擎</span></h1>
+  <div class="sub">
+    能力数据来自 <b>canirun.ai</b> 的模型目录（83 个开源模型，Q2_K–F16 共 7 档量化）与其原封未动的评估引擎
+    （可运行性判定 + tok/s 估计 + S–F 打分）。价格为美国市场 2026-08 近似成交价。
+    每个点 = 一台可购买的硬件；越靠左上越值。
+  </div>
+</header>
+
+<div class="controls">
+  <label>量化档位
+    <select id="quant"></select>
+  </label>
+  <label>能力指标 (Y)
+    <select id="metric">
+      <option value="totalScore" selected>综合能力分（引擎 S–F 分数总和）</option>
+      <option value="maxParams">可运行最大模型参数 (B)</option>
+      <option value="runnable">可运行模型数量</option>
+      <option value="avgTpsComfy">可运行模型平均速度 (tok/s)</option>
+    </select>
+  </label>
+  <button id="logX" class="active">价格对数轴</button>
+  <button id="logY" class="active">能力对数轴</button>
+  <button id="isoBtn" class="active">等性价比线</button>
+  <button id="frontierBtn" class="active">性价比前沿</button>
+  <label style="margin-left:auto">气泡大小 = 可运行模型数 · 圆形=新品 · 菱形=二手</label>
+</div>
+
+<main>
+  <div id="chart"></div>
+  <div class="side">
+    <div class="card">
+      <h2 id="rankTitle">性价比排行（能力分 / $1000）</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr>
+            <th>#</th><th>设备</th><th class="num">价格 $</th><th class="num">VRAM GB</th>
+            <th class="num" id="metricTh">能力分</th><th class="num">每$1000</th>
+          </tr></thead>
+          <tbody id="rankBody"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <h2>口径说明</h2>
+      <div class="note" id="assumptions"></div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  本项目：<a href="https://github.com/Mappedinfo/ShouldIBuy" target="_blank">Mappedinfo/ShouldIBuy</a>（方法与结论见仓库 <a href="https://github.com/Mappedinfo/ShouldIBuy#readme" target="_blank">README</a>；价格/口径改 <code>prices.json</code> 后可重新生成）。
+  模型与评估逻辑：<a href="https://github.com/midudev/canirun.ai" target="_blank">midudev/canirun.ai</a>（本仓库 clone 于 canirun.ai/，本地 <code>pnpm dev</code> 可运行原站）。
+  能力指标由 <code>extract-capability.ts</code> 调用其 <code>packages/models</code> + <code>packages/compatibility</code> 计算生成 <code>data.json</code>。价格不含独显主机其余部件（默认按 32GB 内存主机评估 offload），不含电费。
+</footer>
+
+<script>
+const CATEGORY_COLORS = {
+  "NVIDIA GeForce": "#76b900",
+  "NVIDIA Pro/Datacenter": "#b085f5",
+  "AMD": "#ff5c5c",
+  "Intel": "#4da3ff",
+  "Apple Silicon": "#d0d0d8"
+};
+const METRIC_LABELS = {
+  totalScore: "综合能力分",
+  maxParams: "最大可运行模型 (B)",
+  runnable: "可运行模型数",
+  avgTpsComfy: "平均速度 (tok/s)"
+};
+
+const chart = echarts.init(document.getElementById("chart"), "dark");
+let DATA = null;      // parsed data.json
+let state = { quant: "Q4_K_M", metric: "totalScore", logX: true, logY: true, iso: true, frontier: true };
+
+function fmtPrice(p) { return p >= 1000 ? "$" + (p / 1000).toFixed(p < 10000 ? 2 : 1) + "k" : "$" + p; }
+function fmt(x) { return x === null || x === undefined ? "–" : (Math.round(x * 10) / 10).toString(); }
+
+function metricOf(pt) {
+  const agg = pt.device.byQuant[state.quant];
+  return agg ? agg[state.metric] : null;
+}
+
+function buildPoints() {
+  const devByKey = new Map(DATA.devices.map(d => [d.key, d]));
+  POINTS = [];
+  for (const p of DATA.prices.devices) {
+    const device = devByKey.get(p.key);
+    if (!device) { console.warn("no device for price key", p.key); continue; }
+    POINTS.push({ price: p, device, name: p.label || p.key });
+  }
+}
+
+function frontierPoints(pts) {
+  const sorted = [...pts].sort((a, b) => a.price.price - b.price.price);
+  const front = [];
+  let best = -Infinity;
+  for (const pt of sorted) {
+    const v = metricOf(pt);
+    if (v !== null && v > best) { best = v; front.push(pt); }
+  }
+  return front;
+}
+
+function isoSeries() {
+  if (!state.iso) return [];
+  const priced = POINTS.filter(pt => metricOf(pt) !== null && metricOf(pt) > 0);
+  if (!priced.length) return [];
+  const values = priced.map(metricOf).sort((a, b) => a - b);
+  const pricesSorted = priced.map(pt => pt.price.price).sort((a, b) => a - b);
+  const median = arr => arr[Math.floor(arr.length / 2)];
+  const kMid = median(values) / median(pricesSorted);
+  const ks = [kMid * 0.5, kMid, kMid * 2];
+  // Clip each y=kx line to the data's own value/price envelope so the
+  // reference lines never stretch the axes beyond the points.
+  const yMin = values[0], yMax = values[values.length - 1];
+  const xLo = pricesSorted[0], xHi = pricesSorted[pricesSorted.length - 1];
+  return ks
+    .map(k => {
+      const x0 = Math.max(xLo, yMin / k);
+      const x1 = Math.min(xHi, yMax / k);
+      if (x1 <= x0) return null;
+      return {
+        name: "等性价比线", type: "line", silent: true, symbol: "none",
+        lineStyle: { color: "#3a4356", type: [6, 6], width: 1 },
+        data: [[x0, k * x0], [x1, k * x1]],
+        tooltip: { show: false }, z: 0
+      };
+    })
+    .filter((s) => s !== null);
+}
+
+function render() {
+  const cats = [...new Set(POINTS.map(pt => pt.price.category))];
+  const series = cats.map(cat => {
+    const pts = POINTS.filter(pt => pt.price.category === cat);
+    return {
+      name: cat,
+      type: "scatter",
+      data: pts.map(pt => {
+        const agg = pt.device.byQuant[state.quant];
+        const v = metricOf(pt);
+        return {
+          value: [pt.price.price, v],
+          symbol: pt.price.condition === "used" ? "diamond" : "circle",
+          symbolSize: 9 + (agg ? agg.runnable : 0) * 0.32,
+          pt, agg
+        };
+      }).filter(d => d.value[1] !== null && d.value[1] > 0)
+    };
+  });
+
+  const front = frontierPoints(POINTS.filter(pt => metricOf(pt) !== null && metricOf(pt) > 0));
+  const frontierSeries = (state.frontier && front.length > 1) ? [{
+    name: "性价比前沿",
+    type: "line", silent: true, symbol: "emptyCircle", symbolSize: 7,
+    lineStyle: { color: "#ffd166", width: 1.5, type: [4, 4] },
+    itemStyle: { color: "#ffd166" },
+    data: front.map(pt => [pt.price.price, metricOf(pt)]),
+    tooltip: { show: false }, z: 1
+  }] : [];
+
+  chart.setOption({
+    backgroundColor: "transparent",
+    textStyle: { fontFamily: "inherit" },
+    legend: { top: 6, textStyle: { color: "#cfd6e0" } },
+    grid: { left: 64, right: 30, top: 46, bottom: 64 },
+    toolbox: { right: 12, top: 2, feature: { saveAsImage: { title: "保存图片" } } },
+    tooltip: {
+      trigger: "item",
+      backgroundColor: "#121722", borderColor: "#2a3140", textStyle: { fontSize: 12 },
+      formatter: (p) => {
+        if (!p.data || !p.data.pt) return "";
+        const { pt, agg } = p.data;
+        const c = CATEGORY_COLORS[pt.price.category] || "#888";
+        const value1k = ((p.data.value[1] || 0) / pt.price.price * 1000);
+        return `<div style="max-width:330px">
+          <b style="color:${c}">${pt.name}</b>
+          <span style="color:#98a2b3"> · ${pt.price.condition === "used" ? "二手" : "新品"} · ${pt.price.category}</span><br/>
+          价格 <b>${fmtPrice(pt.price.price)}</b>（${pt.price.note}）<br/>
+          ${pt.device.kind === "apple" ? "统一内存" : "VRAM"} ${pt.device.vramGb} GB · 带宽 ${pt.device.bandwidthGbps} GB/s<br/>
+          ── ${state.quant} 量化 ──<br/>
+          可运行 ${agg.runnable}/${DATA.modelCatalog.length} 个模型（舒适运行 ${agg.comfy}，≥20tok/s ${agg.fast}）<br/>
+          最大模型 ${fmt(agg.maxParams)}B · 最佳搭配 ${agg.bestModel || "–"}${agg.bestModelTps ? "（约 " + agg.bestModelTps + " tok/s）" : ""}<br/>
+          平均速度 ${fmt(agg.avgTpsComfy)} tok/s · 能力分 ${agg.totalScore}<br/>
+          <b>${METRIC_LABELS[state.metric]}：${fmt(p.data.value[1])}</b> · 每 $1000 ≈ ${fmt(value1k)}
+        </div>`;
+      }
+    },
+    xAxis: {
+      name: `自部署价格（USD${state.logX ? "，对数" : ""}）→`, nameLocation: "middle", nameGap: 34,
+      type: state.logX ? "log" : "value",
+      min: state.logX ? 90 : 0, max: state.logX ? 60000 : undefined,
+      axisLabel: { formatter: v => fmtPrice(v) },
+      splitLine: { lineStyle: { color: "#222a38" } }
+    },
+    yAxis: {
+      name: `${METRIC_LABELS[state.metric]}${state.logY ? "（对数）" : ""} · ${state.quant}`, nameLocation: "middle", nameGap: 48,
+      type: state.logY ? "log" : "value", splitLine: { lineStyle: { color: "#222a38" } }
+    },
+    dataZoom: [
+      { type: "inside", xAxisIndex: 0 },
+      { type: "slider", xAxisIndex: 0, height: 18, bottom: 14,
+        backgroundColor: "transparent", fillerColor: "rgba(118,185,0,0.15)" }
+    ],
+    series: [...isoSeries(), ...frontierSeries, ...series]
+  }, { replaceMerge: ["series"] });
+
+  renderTable();
+}
+
+function renderTable() {
+  const rows = POINTS
+    .map(pt => ({ pt, v: metricOf(pt) }))
+    .filter(r => r.v !== null && r.v > 0)
+    .map(r => ({ ...r, value1k: r.v / r.pt.price.price * 1000 }))
+    .sort((a, b) => b.value1k - a.value1k);
+
+  document.getElementById("rankTitle").textContent =
+    `性价比排行（${METRIC_LABELS[state.metric]} / $1000 · ${state.quant}）`;
+  document.getElementById("metricTh").textContent = METRIC_LABELS[state.metric];
+
+  const tbody = document.getElementById("rankBody");
+  tbody.innerHTML = rows.slice(0, 30).map((r, i) => {
+    const c = CATEGORY_COLORS[r.pt.price.category] || "#888";
+    return `<tr data-name="${r.pt.name}">
+      <td>${i + 1}</td>
+      <td><span class="dot" style="background:${c}"></span>${r.pt.name}
+        ${r.pt.price.condition === "used" ? '<span class="used-mark">二手</span>' : ""}</td>
+      <td class="num">${fmtPrice(r.pt.price.price)}</td>
+      <td class="num">${r.pt.device.vramGb}</td>
+      <td class="num">${fmt(r.v)}</td>
+      <td class="num"><b>${fmt(r.value1k)}</b></td>
+    </tr>`;
+  }).join("");
+
+  tbody.querySelectorAll("tr").forEach(tr => {
+    tr.addEventListener("click", () => {
+      const name = tr.dataset.name;
+      chart.dispatchAction({ type: "downplay" });
+      chart.dispatchAction({ type: "highlight", seriesName: undefined, name });
+      const pt = POINTS.find(p => p.name === name);
+      if (pt) chart.dispatchAction({ type: "showTip", seriesIndex: 0, dataIndex: 0, name });
+    });
+  });
+}
+
+async function init() {
+  const res = await fetch("data.json");
+  DATA = await res.json();
+
+  const qSel = document.getElementById("quant");
+  qSel.innerHTML = DATA.quantizations.map(q =>
+    `<option value="${q}" ${q === "Q4_K_M" ? "selected" : ""}>${q}</option>`).join("");
+  qSel.addEventListener("change", () => { state.quant = qSel.value; render(); });
+  document.getElementById("metric").addEventListener("change", e => {
+    state.metric = e.target.value; render();
+  });
+  const bindToggle = (id, key) => {
+    const btn = document.getElementById(id);
+    btn.addEventListener("click", () => {
+      state[key] = !state[key];
+      btn.classList.toggle("active", state[key]);
+      render();
+    });
+  };
+  bindToggle("logX", "logX");
+  bindToggle("logY", "logY");
+  bindToggle("isoBtn", "iso");
+  bindToggle("frontierBtn", "frontier");
+
+  const a = DATA.assumptions;
+  document.getElementById("assumptions").innerHTML = `
+    · 能力 = canirun.ai 引擎对 ${DATA.modelCatalog.length} 个开源模型逐一评估后汇总：
+    可运行性（VRAM/统一内存 + ${a.appleUsableFactor * 100}% Apple 可用系数 + CPU offload）、
+    tok/s ≈ 带宽 ÷ 工作集 × 效率、S–F 打分。<br/>
+    · 独显主机假设 ${a.systemRamGbForDgpu}GB 系统内存（允许 CPU offload，对应引擎 can-run-slow 降权）。<br/>
+    · 默认量化 ${a.quantizationDefault}（社区常用甜点档）；切换档位会改变结论。<br/>
+    · 价格为 ${DATA.prices.asOf} 美国市场近似价：${DATA.prices.notes}<br/>
+    · 生成时间 ${DATA.generatedAt.slice(0, 10)}。数据卡（H100/A100 等）价格不含服务器整机。`;
+
+  buildPoints();
+  render();
+  window.addEventListener("resize", () => chart.resize());
+}
+
+init();
+</script>
+</body>
+</html>

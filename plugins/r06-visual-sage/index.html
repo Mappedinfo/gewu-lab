@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>visual-sage · 可视化代数工作台</title>
+<link rel="stylesheet" href="./style.css">
+<script src="https://cdn.jsdelivr.net/pyodide/v0.27.2/full/pyodide.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">∑</span>
+    <div>
+      <h1>visual-sage</h1>
+      <p class="tagline">可视化代数工作台 · 选任务 → 填参数 → 看代码 + 结果 · 纯前端（Pyodide + SymPy）</p>
+    </div>
+  </div>
+  <div class="engine-badge" id="engine-badge" title="计算在浏览器内完成，无后端">引擎：启动中…</div>
+</header>
+
+<main class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="search"><input id="search" type="search" placeholder="搜索任务…" autocomplete="off" disabled></div>
+    <nav id="template-list"><div class="empty-state" style="padding:24px;color:var(--text-mute)">加载 SymPy 引擎中…</div></nav>
+  </aside>
+
+  <section class="workspace">
+    <div class="workspace-inner" id="workspace">
+      <div class="empty-state">
+        <div class="empty-glyph">⏳</div>
+        <p id="boot-msg">正在下载 Pyodide + SymPy（首次约 10–15 秒，之后浏览器缓存）…</p>
+        <p class="muted">计算完全在你的浏览器内进行，无服务器。</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <span>visual-sage · 纯静态站点 · 引擎 <b id="engine-foot">Pyodide/SymPy (WASM)</b></span>
+  <span class="dot">·</span>
+  <span>代码即文档：每个任务的“生成的代码”面板就是实际执行的脚本</span>
+</footer>
+
+<div class="overlay" id="overlay"><div class="spinner"></div><div class="overlay-msg" id="overlay-msg">加载中…</div></div>
+
+<script src="./app.js"></script>
+</body>
+</html>

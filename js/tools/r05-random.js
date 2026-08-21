@@ -118,5 +118,5 @@
     if (lastResult.csv) GEWU.downloadText(lastResult.csv, "groups.csv", "text/csv");
   });
 
-  renderRelated($("#related"), ["R-04", "V-03", "R-02"]);
+  renderRelated($("#related"), ["R-04", "R-06", "R-02"]);
 })();

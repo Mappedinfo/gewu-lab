@@ -157,6 +157,6 @@ ${renderDoc(input.value)}
     } catch (e) {}
   })();
 
-  renderRelated($("#related"), ["R-01", "R-03", "K-01"]);
+  renderRelated($("#related"), ["R-01", "R-06", "K-01"]);
   render();
 })();
