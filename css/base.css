@@ -270,6 +270,7 @@ select { cursor: pointer; }
 
 /* ---------- 工具页 ---------- */
 .tool-wrap { max-width: 1180px; margin: 0 auto; padding: 34px 24px 0; }
+.tool-wrap.wide { max-width: 1560px; }
 .crumbs { font-family: var(--font-mono); font-size: .74rem; color: var(--ink-3); letter-spacing: .1em; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .crumbs a { color: var(--ink-3); }
 .crumbs a:hover { color: var(--accent); }
@@ -288,6 +289,7 @@ select { cursor: pointer; }
 .tool-split { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .tool-split.wider-r { grid-template-columns: 2fr 3fr; }
 .tool-split.wider-l { grid-template-columns: 3fr 2fr; }
+.tool-split.map-split { grid-template-columns: minmax(320px, 2fr) 3fr; }
 .pane { min-width: 0; display: flex; flex-direction: column; gap: 10px; }
 .pane-title { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .14em; color: var(--ink-3); display: flex; align-items: center; gap: 8px; }
 .pane-title::before { content: ""; width: 18px; height: 1px; background: var(--line-strong); }
@@ -432,7 +434,7 @@ html[data-theme="dark"] .hljs-title { color: #D9A45B; }
   .hero-inner { grid-template-columns: 1fr; }
   .hero h1 { font-size: 2.6rem; }
   .hero-plate { max-width: 460px; }
-  .tool-split, .tool-split.wider-r, .tool-split.wider-l { grid-template-columns: 1fr; }
+  .tool-split, .tool-split.wider-r, .tool-split.wider-l, .tool-split.map-split { grid-template-columns: 1fr; }
   .principles { grid-template-columns: 1fr 1fr; }
   .footer-grid { grid-template-columns: 1fr; gap: 28px; }
   .flow { grid-template-columns: repeat(2, 1fr); }
