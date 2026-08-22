@@ -141,3 +141,23 @@ node scripts/gen-catalog.mjs
 - [ ] 应用不写 `document.documentElement.dataset.theme`（写 `api.themeRoot`）
 - [ ] 独立运行（无 `GEWU_PLUGIN`）时应用仍可整页工作
 - [ ] `node scripts/gen-catalog.mjs` 后首页出现新卡片、计数正确
+
+## 六、自动同步（GitHub Actions）
+
+`embed.mjs sync` 会逐个检查插件 manifest 的 `sourceCommit` 与源仓库远端 HEAD：
+有差异才重建嵌入并更新版本号，无差异则不动。
+
+- **本地手动同步**：`node scripts/embed.mjs sync`
+- **每日自动同步**：`.github/workflows/sync-plugins.yml` 每天 03:23 UTC 运行一次，
+  有更新时自动提交并推送（触发 Pages 重建），无更新则零提交
+- **手动触发**：仓库 Actions 页 → sync-plugins → Run workflow
+
+manifest 同步相关字段：
+
+| 字段 | 说明 |
+| --- | --- |
+| `sync` | `bundle`（构建后整目录拷贝，默认）或 `copy`（按文件列表拷贝，纯静态工具） |
+| `sourcePath` | copy 型：源仓库内的子目录（如 `visual-sage`），提交检测按该路径粒度 |
+| `files` | copy 型：需要拷贝的文件列表（相对 sourcePath） |
+| `sourceCommit` | 上次构建时源仓库（或路径）的 HEAD，自动维护，勿手改 |
+| `repo` | 源仓库 `org/repo`（必须与 GitHub 实际仓库名一致） |

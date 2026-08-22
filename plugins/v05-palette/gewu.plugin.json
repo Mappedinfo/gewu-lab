@@ -17,5 +17,7 @@
     "entry": "gewu-plugin.js"
   },
   "version": "1.0.0",
-  "repo": "mappedinfo/palette-lab"
+  "repo": "mappedinfo/palette-lab",
+  "sync": "bundle",
+  "sourceCommit": "1b8c8248a4d83d0bd7022b0244603858793a69c4"
 }

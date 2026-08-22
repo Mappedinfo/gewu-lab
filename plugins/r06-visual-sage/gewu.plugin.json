@@ -16,6 +16,15 @@
     "type": "iframe",
     "src": "index.html"
   },
-  "version": "1.0.0",
-  "repo": "mappedinfo/math"
+  "version": "c494abb",
+  "repo": "mappedinfo/math",
+  "sync": "copy",
+  "sourcePath": "visual-sage",
+  "files": [
+    "index.html",
+    "app.js",
+    "style.css",
+    "templates.py"
+  ],
+  "sourceCommit": "c494abbe05b98ca9dee5d313dcd31c76134f323f"
 }

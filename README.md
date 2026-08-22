@@ -63,7 +63,10 @@ node scripts/embed.mjs update v05-palette
 node scripts/embed.mjs remove v05-palette
 ```
 
-当前插件：**R-06 代数工作台**（mappedinfo/math）、**V-05 色卡实验室**（mappedinfo/palette-lab，经 gewu 适配层原生挂载）、**V-06 图表编辑器**（mappedinfo/mermaid）、**V-07 AI 硬件性价比**（mappedinfo/ShouldIBuy）。
+当前插件：**R-06 代数工作台**（mappedinfo/math）、**V-05 色卡实验室**（mappedinfo/palette-lab，经 gewu 适配层原生挂载）、**V-06 图表编辑器**（mappedinfo/mermaidreader）、**V-07 AI 硬件性价比**（mappedinfo/ShouldIBuy）。
+
+**自动同步**：`.github/workflows/sync-plugins.yml` 每日自动检查各插件源仓库，
+有新提交才重建嵌入并推送（`node scripts/embed.mjs sync` 也可手动执行）。
 
 详细契约与适配层写法见 [docs/PLUGINS.md](docs/PLUGINS.md)。
 

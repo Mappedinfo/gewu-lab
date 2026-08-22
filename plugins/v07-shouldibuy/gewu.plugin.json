@@ -17,5 +17,14 @@
     "src": "index.html"
   },
   "version": "1.0.0",
-  "repo": "mappedinfo/ShouldIBuy"
+  "repo": "mappedinfo/ShouldIBuy",
+  "sync": "copy",
+  "sourcePath": "",
+  "files": [
+    "index.html",
+    "data.json",
+    "prices.json",
+    "vendor/echarts.min.js"
+  ],
+  "sourceCommit": "294f19d8e74b05600b30cbb39abb16a9f6301fa3"
 }

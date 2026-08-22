@@ -1,0 +1,36 @@
+name: sync-plugins
+# 自动同步插件：每日检查各插件源仓库是否有新提交（对比 manifest.sourceCommit），
+# 有更新才重建嵌入并推送；无更新则零提交零噪音。
+on:
+  schedule:
+    - cron: "23 3 * * *"        # 每日 03:23 UTC（北京时间 11:23）
+  workflow_dispatch: {}         # 也支持手动触发
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: 检查并同步插件
+        run: node scripts/embed.mjs sync
+
+      - name: 有变更则提交推送
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "✅ 所有插件均已最新，跳过提交"
+          else
+            git commit -m "chore: 自动同步插件 $(date -u +%Y-%m-%d)"
+            git push
+            echo "🚀 已同步并推送，GitHub Pages 将自动重建"
+          fi

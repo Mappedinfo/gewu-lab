@@ -17,5 +17,7 @@
     "src": "index.html"
   },
   "version": "1.0.0",
-  "repo": "mappedinfo/mermaid"
+  "repo": "mappedinfo/mermaidreader",
+  "sync": "bundle",
+  "sourceCommit": "37968fff15ff2f654614dc7858f1992c4c710eef"
 }

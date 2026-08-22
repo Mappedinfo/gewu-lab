@@ -19,7 +19,7 @@ const GEWU_PLUGINS = [
     "icon": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 19c2-6 4-10 7-12s5-2 7-1\"/><path d=\"M5 5h6M8 8h4\"/><path d=\"M5 19h14\"/><text x=\"16\" y=\"17\" font-size=\"11\" font-family=\"serif\">∑</text></svg>",
     "thumb": "<svg viewBox=\"0 0 120 80\">\n  <rect width=\"120\" height=\"80\" fill=\"var(--paper)\"/>\n  <rect x=\"12\" y=\"14\" width=\"96\" height=\"30\" rx=\"4\" fill=\"var(--surface)\" stroke=\"var(--line-strong)\"/>\n  <text x=\"20\" y=\"34\" font-family=\"serif\" font-size=\"15\" fill=\"var(--ink)\">∫ x² dx</text>\n  <path d=\"M84 18l14 8-14 8z\" fill=\"var(--accent)\" opacity=\".85\"/>\n  <text x=\"20\" y=\"40\" font-family=\"monospace\" font-size=\"8.5\" fill=\"var(--ink-3)\">sympy.integrate(x**2, x)</text>\n  <rect x=\"12\" y=\"50\" width=\"96\" height=\"20\" rx=\"4\" fill=\"var(--green-soft)\" stroke=\"var(--green)\" stroke-opacity=\".5\" stroke-dasharray=\"3 3\"/>\n  <text x=\"20\" y=\"64\" font-family=\"serif\" font-size=\"12\" fill=\"var(--green-ink)\">= x³/3 + C</text>\n  <text x=\"12\" y=\"10\" font-family=\"monospace\" font-size=\"8\" fill=\"var(--ink-3)\">Pyodide · SymPy · 本地 WASM</text>\n</svg>",
     "plugin": true,
-    "version": "1.0.0",
+    "version": "c494abb",
     "repo": "mappedinfo/math"
   },
   {
@@ -56,7 +56,7 @@ const GEWU_PLUGINS = [
     "thumb": "<svg viewBox=\"0 0 120 80\">\n  <rect width=\"120\" height=\"80\" fill=\"var(--paper)\"/>\n  <rect x=\"14\" y=\"12\" width=\"22\" height=\"16\" rx=\"3\" fill=\"var(--surface)\" stroke=\"var(--accent)\" stroke-width=\"1.5\"/>\n  <rect x=\"84\" y=\"12\" width=\"22\" height=\"16\" rx=\"3\" fill=\"var(--surface)\" stroke=\"var(--blue)\" stroke-width=\"1.5\"/>\n  <rect x=\"46\" y=\"52\" width=\"28\" height=\"16\" rx=\"3\" fill=\"var(--surface)\" stroke=\"var(--green)\" stroke-width=\"1.5\"/>\n  <path d=\"M36 20h48M47 28l10 24M73 28l-10 24\" fill=\"none\" stroke=\"var(--line-strong)\" stroke-width=\"1.6\"/>\n  <circle cx=\"47\" cy=\"28\" r=\"2.4\" fill=\"var(--accent)\"/><circle cx=\"73\" cy=\"28\" r=\"2.4\" fill=\"var(--blue)\"/>\n  <text x=\"14\" y=\"10\" font-family=\"monospace\" font-size=\"8\" fill=\"var(--ink-3)\">flowchart · sequence · class</text>\n</svg>",
     "plugin": true,
     "version": "1.0.0",
-    "repo": "mappedinfo/mermaid"
+    "repo": "mappedinfo/mermaidreader"
   },
   {
     "code": "V-07",
