@@ -21,6 +21,14 @@
   const LAYOUTS = ["tree", "radial", "org", "fishbone"];
   const SHAPES = ["rounded", "ellipse", "capsule", "hex"];
   const LINES = ["curve", "straight", "elbow"];
+  const PATTERNS = ["none", "grid", "dots", "diag"];
+  const BG_PRESETS = [
+    { id: "theme", name: "跟随主题" },
+    { id: "#FFFFFF", name: "纯白" },
+    { id: "#F4EFE2", name: "宣纸" },
+    { id: "#E7EDF2", name: "淡青" },
+    { id: "#1C1913", name: "墨夜" },
+  ];
   const PALETTES = [
     { id: "danqing", name: "丹青", colors: ["#C03A22", "#25548F", "#3B6B4E", "#B07A1F", "#6B4F9E", "#2E7D9E"] },
     { id: "qingbi",  name: "青碧", colors: ["#1F4E79", "#2E6B8F", "#3A8A7A", "#4E9A64", "#5C8FC7", "#8E7CC3"] },
@@ -31,11 +39,13 @@
   ];
 
   /* ---------- 状态（记住用户选择） ---------- */
-  let state = { layout: "tree", palette: "danqing", shape: "rounded", line: "curve" };
+  let state = { layout: "tree", palette: "danqing", shape: "rounded", line: "curve", bg: "theme", pattern: "none" };
   try {
     const saved = JSON.parse(localStorage.getItem("gewu-k05-style") || "null");
     if (saved && LAYOUTS.includes(saved.layout) && PALETTES.some(p => p.id === saved.palette)
-      && SHAPES.includes(saved.shape) && LINES.includes(saved.line)) Object.assign(state, saved);
+      && SHAPES.includes(saved.shape) && LINES.includes(saved.line)
+      && PATTERNS.includes(saved.pattern)
+      && (saved.bg === "theme" || /^#[0-9a-fA-F]{6}$/.test(saved.bg))) Object.assign(state, saved);
   } catch (_) {}
 
   function palette() { return PALETTES.find(p => p.id === state.palette) || PALETTES[0]; }
@@ -294,14 +304,64 @@
     return edges;
   }
 
-  /* ---------- 主题 ---------- */
+  /* ---------- 主题 / 背景 ---------- */
+  function luminance(hex) {
+    const n = parseInt(hex.slice(1), 16);
+    const f = v => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+    return 0.2126 * f(n >> 16 & 255) + 0.7152 * f(n >> 8 & 255) + 0.0722 * f(n & 255);
+  }
   function theme() {
     const css = getComputedStyle(document.documentElement);
+    const bg = state.bg === "theme"
+      ? (css.getPropertyValue("--surface").trim() || "#FBF8EF")
+      : state.bg;
+    /* 依据背景明暗自动配文字颜色，保证任意底色可读 */
+    const dark = luminance(bg) < 0.35;
     return {
-      bg: css.getPropertyValue("--surface").trim() || "#FBF8EF",
-      ink: css.getPropertyValue("--ink").trim() || "#262117",
-      ink2: css.getPropertyValue("--ink-2").trim() || "#5F5745",
+      bg,
+      ink: dark ? "#E9E2CE" : "#262117",
+      ink2: dark ? "#A79E87" : "#5F5745",
     };
+  }
+
+  /* ---------- 背景花纹 ---------- */
+  function drawPattern(ctx, vb, t) {
+    const p = state.pattern;
+    if (p === "none") return;
+    ctx.save();
+    ctx.strokeStyle = t.ink;
+    ctx.fillStyle = t.ink;
+    ctx.lineWidth = 1;
+    if (p === "grid") {
+      ctx.globalAlpha = 0.07;
+      const step = 24;
+      ctx.beginPath();
+      for (let x = 0; x <= vb.w; x += step) { ctx.moveTo(x + .5, 0); ctx.lineTo(x + .5, vb.h); }
+      for (let y = 0; y <= vb.h; y += step) { ctx.moveTo(0, y + .5); ctx.lineTo(vb.w, y + .5); }
+      ctx.stroke();
+    } else if (p === "dots") {
+      ctx.globalAlpha = 0.13;
+      const step = 22, r = 1.1;
+      ctx.beginPath();
+      for (let y = step / 2; y < vb.h; y += step) {
+        for (let x = step / 2; x < vb.w; x += step) { ctx.moveTo(x + r, y); ctx.arc(x, y, r, 0, Math.PI * 2); }
+      }
+      ctx.fill();
+    } else if (p === "diag") {
+      ctx.globalAlpha = 0.06;
+      const step = 26;
+      ctx.beginPath();
+      for (let d = -vb.h; d < vb.w + vb.h; d += step) { ctx.moveTo(d, 0); ctx.lineTo(d + vb.h, vb.h); }
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+  function patternDefs(t) {
+    const ink = t.ink;
+    if (state.pattern === "grid") return { defs: `<pattern id="gbg" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M0 24 L24 24 M24 0 L24 24" fill="none" stroke="${ink}" stroke-width="1" opacity="0.07"/></pattern>`, url: "url(#gbg)" };
+    if (state.pattern === "dots") return { defs: `<pattern id="pbg" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="11" cy="11" r="1.1" fill="${ink}" opacity="0.13"/></pattern>`, url: "url(#pbg)" };
+    if (state.pattern === "diag") return { defs: `<pattern id="dbg" width="26" height="26" patternUnits="userSpaceOnUse"><path d="M0 0 L26 26" fill="none" stroke="${ink}" stroke-width="1" opacity="0.06"/></pattern>`, url: "url(#dbg)" };
+    return null;
   }
 
   /* ---------- 路径 ---------- */
@@ -332,6 +392,7 @@
     const t = theme();
     ctx.fillStyle = t.bg;
     ctx.fillRect(0, 0, model.vb.w, model.vb.h);
+    drawPattern(ctx, model.vb, t);
 
     ctx.lineCap = "round"; ctx.lineJoin = "round";
     model.edges.forEach(e => {
@@ -438,8 +499,10 @@
     if (!model) return null;
     const t = theme();
     const esc = GEWU.esc;
+    const pat = patternDefs(t);
     const s = [`<svg xmlns="http://www.w3.org/2000/svg" width="${model.vb.w}" height="${model.vb.h}" viewBox="0 0 ${model.vb.w} ${model.vb.h}">`,
       `<rect width="${model.vb.w}" height="${model.vb.h}" fill="${t.bg}"/>`];
+    if (pat) { s.push(`<defs>${pat.defs}</defs>`); s.push(`<rect width="${model.vb.w}" height="${model.vb.h}" fill="${pat.url}"/>`); }
     model.edges.forEach(e => s.push(`<path d="${e.d}" fill="none" stroke="${e.color}" stroke-width="${e.w || 1.6}" stroke-linecap="round" opacity="${e.a == null ? 0.55 : e.a}"/>`));
     const nodes = [];
     walkAll(model.root, n => { if (!n._skip) nodes.push(n); });
@@ -475,13 +538,21 @@
     $$("#seg-layout button").forEach(b => b.classList.toggle("active", b.dataset.v === state.layout));
     $$("#seg-shape button").forEach(b => b.classList.toggle("active", b.dataset.v === state.shape));
     $$("#seg-line button").forEach(b => b.classList.toggle("active", b.dataset.v === state.line));
+    $$("#seg-pattern button").forEach(b => b.classList.toggle("active", b.dataset.v === state.pattern));
     $$("#palettes .pal").forEach(b => b.classList.toggle("active", b.dataset.v === state.palette));
+    $$("#bg-palettes .bgsw").forEach(b => b.classList.toggle("active", b.dataset.v === state.bg));
+    const custom = $("#bg-custom");
+    if (custom) {
+      if (/^#[0-9a-fA-F]{6}$/.test(state.bg)) custom.value = state.bg;
+      custom.classList.toggle("active", /^#[0-9a-fA-F]{6}$/.test(state.bg));
+    }
   }
 
   function initUI() {
     $$("#seg-layout button").forEach(b => b.addEventListener("click", () => setState("layout", b.dataset.v)));
     $$("#seg-shape button").forEach(b => b.addEventListener("click", () => setState("shape", b.dataset.v)));
     $$("#seg-line button").forEach(b => b.addEventListener("click", () => setState("line", b.dataset.v)));
+    $$("#seg-pattern button").forEach(b => b.addEventListener("click", () => setState("pattern", b.dataset.v)));
 
     const holder = $("#palettes");
     PALETTES.forEach(p => {
@@ -495,6 +566,23 @@
       b.addEventListener("click", () => setState("palette", p.id));
       holder.appendChild(b);
     });
+
+    const bgHolder = $("#bg-palettes");
+    BG_PRESETS.forEach(p => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "bgsw";
+      b.dataset.v = p.id;
+      b.title = p.name;
+      b.setAttribute("aria-label", `背景：${p.name}`);
+      if (p.id === "theme") b.classList.add("theme");
+      else b.style.background = p.id;
+      b.addEventListener("click", () => setState("bg", p.id));
+      bgHolder.appendChild(b);
+    });
+    const custom = $("#bg-custom");
+    if (custom) custom.addEventListener("input", () => setState("bg", custom.value));
+
     syncUI();
   }
 

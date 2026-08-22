@@ -22,6 +22,17 @@
   .pal i { flex: 1; display: block; }
   .pal:hover { border-color: var(--line-strong); }
   .pal.active { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .bg-palettes { display: inline-flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .bgsw { width: 22px; height: 22px; padding: 0; border: 1px solid var(--line); border-radius: 50%; cursor: pointer; background: var(--paper); }
+  .bgsw.theme { background: linear-gradient(135deg, #FBF8EF 49%, #211D14 51%); }
+  .bgsw:hover { border-color: var(--line-strong); }
+  .bgsw.active { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .bg-custom { width: 22px; height: 22px; padding: 0; border: 1px solid var(--line); border-radius: 50%; cursor: pointer; background: none; overflow: hidden; }
+  .bg-custom::-webkit-color-swatch-wrapper { padding: 0; }
+  .bg-custom::-webkit-color-swatch { border: none; border-radius: 50%; }
+  .bg-custom::-moz-color-swatch { border: none; border-radius: 50%; }
+  .bg-custom:hover { border-color: var(--line-strong); }
+  .bg-custom.active { outline: 2px solid var(--accent); outline-offset: 1px; }
   #map { display: block; width: 100%; height: auto; }
   .zoom-group { display: inline-flex; align-items: center; gap: 2px; margin-left: 4px; }
   .zbtn { border: 1px solid var(--line); background: var(--paper); color: var(--ink-2); font-size: .74rem; line-height: 1; padding: 3px 8px; cursor: pointer; border-radius: 4px; font-family: var(--font-mono); }
@@ -40,12 +51,12 @@
     <div>
       <h1>思维导图</h1>
       <div class="en">MIND MAP</div>
-      <p class="desc">用缩进把知识结构「写」出来：第一行是中心主题，缩进越深层级越深。支持逻辑图 / 辐射图 / 组织图 / 鱼骨图 4 种布局、6 套学术配色与多种节点形状、连线风格，画布随内容自适应，导出 SVG（可再编辑）或 PNG（可直接分享）。</p>
+      <p class="desc">用缩进把知识结构「写」出来：第一行是中心主题，缩进越深层级越深。支持逻辑图 / 辐射图 / 组织图 / 鱼骨图 4 种布局、6 套学术配色与多种节点形状、连线风格，背景色与花纹可调，画布随内容自适应，导出 SVG（可再编辑）或 PNG（可直接分享）。</p>
     </div>
     <div class="meta">
       <span class="chip green">K-05 · 传</span>
       <span class="chip">4 种布局</span>
-      <span class="chip">6 套配色</span>
+      <span class="chip">6 套配色 · 背景可调</span>
       <span class="chip">SVG 可再编辑</span>
     </div>
   </section>
@@ -61,6 +72,18 @@
         </div>
       </div>
       <div class="ms-group"><span class="ms-label">配色</span><div class="palettes" id="palettes"></div></div>
+      <div class="ms-group"><span class="ms-label">背景</span>
+        <div class="bg-palettes" id="bg-palettes"></div>
+        <input type="color" class="bg-custom" id="bg-custom" value="#FFFFFF" title="自定义背景色" aria-label="自定义背景色">
+      </div>
+      <div class="ms-group"><span class="ms-label">花纹</span>
+        <div class="seg" id="seg-pattern">
+          <button type="button" data-v="none">无</button>
+          <button type="button" data-v="grid">网格</button>
+          <button type="button" data-v="dots">点阵</button>
+          <button type="button" data-v="diag">斜线</button>
+        </div>
+      </div>
       <div class="ms-group"><span class="ms-label">节点</span>
         <div class="seg" id="seg-shape">
           <button type="button" data-v="rounded">圆角</button>

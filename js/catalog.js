@@ -238,7 +238,7 @@ const GEWU_CATALOG = [
   {
     code: "K-05", cat: "K", name: "思维导图", en: "Mind Map",
     href: "tools/k05-mindmap.html",
-    desc: "缩进文本即成导图：逻辑 / 辐射 / 组织 / 鱼骨 4 布局、6 套配色，自适应画布，导出 SVG / PNG。",
+    desc: "缩进文本即成导图：逻辑 / 辐射 / 组织 / 鱼骨 4 布局、6 套配色，背景与花纹可调，导出 SVG / PNG。",
     tags: ["导图", "结构", "大纲"],
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="2.6"/><circle cx="4" cy="6" r="1.8"/><circle cx="20" cy="6" r="1.8"/><circle cx="6" cy="19" r="1.8"/><circle cx="18" cy="19" r="1.8"/><path d="M10.6 10.6L5.6 7.4M13.4 10.6l5-3.4M10.8 13.8l-4.2 4.2M13.2 13.8l4.2 4.2"/></svg>`,
     thumb: `<svg viewBox="0 0 120 80">
